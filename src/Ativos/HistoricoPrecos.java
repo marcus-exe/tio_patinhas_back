@@ -18,8 +18,7 @@ public abstract class HistoricoPrecos {
         dataHora = LocalDateTime.now();
     }
 
-    public HistoricoPrecos(LocalDateTime dataHora, BigDecimal precoAbertura, BigDecimal precoFechamento, BigDecimal precoMax, BigDecimal precoMin, double volumeNegociacao){
-        this.dataHora = dataHora;
+    public HistoricoPrecos(BigDecimal precoAbertura, BigDecimal precoFechamento, BigDecimal precoMax, BigDecimal precoMin, double volumeNegociacao){
         this.precoAbertura = precoAbertura;
         this.precoFechamento = precoFechamento;
         this.precoMax = precoMax;
