@@ -1,18 +1,19 @@
 package Contas;
 
-import java.util.*;
+import java.time.LocalDateTime;
 public class ContaInvestimento extends Conta {
     private String tipoMoeda;
-    private String dataAbertura; /*MUDAR PARA DATE NOS METODOS TAMBEM*/
+    private LocalDateTime dataAbertura;
     private String statusConta;
     private String enderecoCarteira;
 
     public ContaInvestimento() {
         super();
+        dataAbertura = LocalDateTime.now();
     }
 
-    public ContaInvestimento(String nrConta, double saldo, String senhaConta, String tipoConta) {
-        super(nrConta, saldo, senhaConta, tipoConta);
+    public ContaInvestimento(String nrConta, String senhaConta, String tipoConta) {
+        super(nrConta, senhaConta, tipoConta);
     }
 
     public String getTipoMoeda() {
@@ -23,12 +24,8 @@ public class ContaInvestimento extends Conta {
         this.tipoMoeda = tipoMoeda;
     }
 
-    public String getDataAbertura() {
+    public LocalDateTime getDataAbertura() {
         return dataAbertura;
-    }
-
-    public void setDataAbertura(String dataAbertura) {
-        this.dataAbertura = dataAbertura;
     }
 
     public String getStatusConta() {

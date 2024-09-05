@@ -10,9 +10,9 @@ public abstract class Conta {
 
     }
 
-    public Conta(String nrConta, double saldo, String senhaConta, String tipoConta){
+    public Conta(String nrConta, String senhaConta, String tipoConta){
         this.nrConta = nrConta;
-        this.saldo = saldo;
+        this.saldo = 0;
         this.senhaConta = senhaConta;
         this.tipoConta = tipoConta;
     }

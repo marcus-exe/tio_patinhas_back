@@ -1,6 +1,9 @@
 package Ativos;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Ativo extends HistoricoPrecos {
     public String idAtivo;
@@ -12,8 +15,8 @@ public class Ativo extends HistoricoPrecos {
         super();
     }
 
-    public Ativo(String idRegistro, String dataHora, double precoAbertura, double precoFechamento, double precoMax, double precoMin, double volumeNegociacao) {
-        super(idRegistro, dataHora, precoAbertura, precoFechamento, precoMax, precoMin, volumeNegociacao);
+    public Ativo(BigDecimal precoAbertura, BigDecimal  precoFechamento, BigDecimal precoMax, BigDecimal  precoMin, double volumeNegociacao) {
+        super(precoAbertura, precoFechamento, precoMax, precoMin, volumeNegociacao);
     }
 
     public String getIdAtivo() {
