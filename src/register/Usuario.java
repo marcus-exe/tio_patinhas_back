@@ -50,7 +50,7 @@ public class Usuario {
         return cpfCnpj;
     }
 
-    public void setCpfCnpj(String cpfCnpj) {
+    public void setCpf(String cpfCnpj) {
         this.cpfCnpj = cpfCnpj;
     }
 

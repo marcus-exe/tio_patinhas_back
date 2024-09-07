@@ -137,13 +137,13 @@ public class InputUtils {
         do {
             System.out.println("Digite o tipo da sua conta:\n" +
                     "1 - Conta Corrente\n" +
-                    "2 - Conta Poupança ");
+                    "2 - Conta Poupança\n ");
             tipoContaInput = scanner.nextInt();
 
             TipoConta tipoConta;
-            if (tipoContaInput == 1) {
+            if (tipoContaInput == 2) {
                 tipoConta = TipoConta.CONTA_CORRENTE;
-            } else if (tipoContaInput == 2) {
+            } else if (tipoContaInput == 1) {
                 tipoConta = TipoConta.CONTA_POUCANCA;
             } else {
                 tipoConta = null;
@@ -320,19 +320,29 @@ public class InputUtils {
     public static void userTelNumberInput(Scanner scanner, Usuario usuario) {
         String telefoneUsuarioInput;
         do {
-            System.out.println("Qual o seu número de telefone?");
+            System.out.println("Qual o seu número de telefone com DD? (somente números)");
             telefoneUsuarioInput = scanner.nextLine();
-            usuario.setTelefone(telefoneUsuarioInput);
+            try {
+                usuario.setTelefone(Formatters.formatPhoneNumber(telefoneUsuarioInput));
+            } catch (IllegalArgumentException ignored) {
+                System.out.println("São 11 números que ficariam no formato: DD XXXXX-XXXX, tente novamente.");
+                telefoneUsuarioInput = "";
+            }
         } while (Objects.equals(telefoneUsuarioInput, ""));
     }
 
-    public static void userCPFCNPJInput(Scanner scanner, Usuario usuario) {
-        String cpfCnpjUsuarioInput;
+    public static void userCPFInput(Scanner scanner, Usuario usuario) {
+        String cpfUsuarioInput;
         do {
-            System.out.println("Qual o seu CPF ou CNPJ?");
-            cpfCnpjUsuarioInput = scanner.nextLine();
-            usuario.setCpfCnpj(cpfCnpjUsuarioInput);
-        } while (Objects.equals(cpfCnpjUsuarioInput, ""));
+            System.out.println("Qual o seu CPF");
+            cpfUsuarioInput = scanner.nextLine();
+            try {
+                usuario.setCpf(Formatters.formatCpf(cpfUsuarioInput));
+            } catch (IllegalArgumentException ignored) {
+                System.out.println("Argumento Inválido");
+                cpfUsuarioInput = "";
+            }
+        } while (Objects.equals(cpfUsuarioInput, ""));
     }
 
     public static void userPasswordInput(Scanner scanner, Usuario usuario) {
@@ -340,16 +350,25 @@ public class InputUtils {
         do {
             System.out.println("Qual a sua senha?");
             senhaUsuarioInput = scanner.nextLine();
-            usuario.setSenha(senhaUsuarioInput);
+            if (Formatters.validatePassword(senhaUsuarioInput)) {
+                usuario.setSenha(senhaUsuarioInput);
+            } else {
+                System.out.println("Digite uma tenha maior que 10 dígitos");
+                senhaUsuarioInput = "";
+            }
         } while (Objects.equals(senhaUsuarioInput, ""));
     }
 
     public static void userEmailInput(Scanner scanner, Usuario usuario) {
         String emailUsuarioInput;
         do {
-            System.out.println("Qual o seu email?");
+            System.out.println("Qual o seu email? (terminado em @gmail.com) ");
             emailUsuarioInput = scanner.nextLine();
-            usuario.setEmail(emailUsuarioInput);
+            if (Formatters.validateEmail(emailUsuarioInput)) {
+                usuario.setEmail(emailUsuarioInput);
+            } else {
+                emailUsuarioInput = "";
+            }
         } while (Objects.equals(emailUsuarioInput, ""));
     }
 

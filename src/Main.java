@@ -12,8 +12,6 @@ import static utils.InputUtils.*;
 public class Main {
     public static void main(String[] args) {
 
-
-
         Endereco endereco = new Endereco();
         Usuario usuario = new Usuario();
         Corretora corretora = new Corretora();
@@ -24,25 +22,92 @@ public class Main {
 
         Art.getWelcome();
 
-        /*--------------USUARIO-------------------------*/
+        int option = -1;
+        do {
+            System.out.println("\nEscolha uma das opções:\n" +
+                    "1 - Cadastrar Usuário\n" +
+                    "2 - Cadastrar Endereço\n" +
+                    "3 - Cadastrar Corretora\n" +
+                    "4 - Cadastrar ContaInvestimento\n" +
+                    "5 - Realizar Transação\n" +
+                    "-1 - Sair\n");
+            option = scanner.nextInt();
 
-        System.out.println("\nAntes de começar a investir, realize o seu cadastro" +
-                " preenchendo as informações a seguir:");
-        
+            switch (option) {
+                case 1 -> {
+                    userInput(scanner, usuario);
+                }
+                case 2 -> {
+                    addressInput(scanner, endereco);
+                }
+                case 3 -> {
+                    brokerInput(scanner, corretora);
+                }
+                case 4 -> {
+                    accountInput(scanner, contaInvestimento);
+                }
+                case 5 -> {
+                    transaction(scanner, transacao);
+                }
+                case -1 -> {
+                    Art.getGoodbye();
+                }
+                default -> {
+                    System.out.println("Valor Inválido");
+                }
+            }
 
-        userNameInput(scanner, usuario);
-        userEmailInput(scanner, usuario);
-        userPasswordInput(scanner, usuario);
-        userCPFCNPJInput(scanner, usuario);
-        userTelNumberInput(scanner, usuario);
+        } while (option != -1);
+
+    }
+
+    private static void transaction(Scanner scanner, Transacao transacao) {
+        System.out.println("\n### Realizar Transação. ###");
+
+        double taxaInput = 0.1;
+
+        transactionAmountInput(scanner, transacao);
+        transactionDescriptionInput(scanner, transacao);
+        transactionOriginAddressInput(scanner, transacao);
+        transactionDestinyAddressInput(scanner, transacao);
+        transactionHashInput(scanner, transacao);
+        transactionTaxInput(taxaInput, scanner, transacao);
+
+        System.out.println("\nDados Cadastrados!!!!");
+        System.out.println(transacao.getResumoTransacao());
+    }
+
+    private static void accountInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+        System.out.println("\n ### Cadastro de Conta. ### ");
+
+        accountNumberInput(scanner, contaInvestimento);
+        accountPasswordInput(scanner, contaInvestimento);
+        accountTypeInput(scanner, contaInvestimento);
+        accountCryptoTypeInput(scanner, contaInvestimento);
+        accountStatusInput(scanner, contaInvestimento);
+        accountAddressInput(scanner, contaInvestimento);
+
+        System.out.println("\nDados Cadastrados!!!!");
+        System.out.println(contaInvestimento.getResumoConta());
+    }
+
+    private static void brokerInput(Scanner scanner, Corretora corretora) {
+        System.out.println("\n### Cadastro de Corretora. ###");
+
+        brokerNameInput(scanner, corretora);
+        brokerCNPJInput(scanner, corretora);
+        brokerTelNumberInput(scanner, corretora);
+        brokerEmailInput(scanner, corretora);
+        brokerCriptoActivesInput(scanner, corretora); //still need to make it a list
+        brokerAddressInput(scanner, corretora);
 
         System.out.println("\nDados cadastrados!!!!");
-        System.out.println(usuario.getResumoUsuario());
+        System.out.println(corretora.getResumoCorretora());
+    }
 
+    private static void addressInput(Scanner scanner, Endereco endereco) {
+        System.out.println("\n### Cadastro de Endereço. ###");
 
-        /*--------------ENDEREÇO-------------------------*/
-
-        System.out.println("\nÓtimo! Vamos ver agora sobre o seu endereço.");
         int numberInput = -1;
         addressStreetInput(scanner, endereco);
         addressNumberInput(numberInput, scanner, endereco);
@@ -55,66 +120,19 @@ public class Main {
 
         System.out.println("\nDados cadastrados!!!!");
         System.out.println(endereco.getResumoEndereco());
-
-
-        /*--------------CORRETORA-------------------------*/
-
-        System.out.println("\nPara finalizar o cadastro, preencha as" +
-                " informações a seguir sobre a sua corretora: ");
-
-        brokerNameInput(scanner, corretora);
-        brokerCNPJInput(scanner, corretora);
-        brokerTelNumberInput(scanner, corretora);
-        brokerEmailInput(scanner, corretora);
-        brokerCriptoActivesInput(scanner, corretora); //still need to make it a list
-        brokerAddressInput(scanner, corretora);
-
-        System.out.println("\nDados cadastrados!!!!");
-        System.out.println(corretora.getResumoCorretora());
-
-
-        /*--------------CONTA INVESTIMENTO-------------------------*/
-
-
-        System.out.println("\nObrigado por realizar o cadastro. Agora, preencha" +
-                " as informações sobre a sua conta de investimento: ");
-        
-        accountNumberInput(scanner, contaInvestimento);
-        accountPasswordInput(scanner, contaInvestimento);
-        accountTypeInput(scanner, contaInvestimento);
-        accountCryptoTypeInput(scanner, contaInvestimento);
-        accountStatusInput(scanner, contaInvestimento);
-        accountAddressInput(scanner, contaInvestimento);
-
-        System.out.println("\nDados Cadastrados!!!!");
-        System.out.println(contaInvestimento.getResumoConta());
-
-
-        /*--------------Transação-------------------------*/
-
-
-        System.out.println("\nPara realizar uma transação, preeencha as informações a seguir.");
-
-        double taxaInput = 0.1;
-
-        transactionAmountInput(scanner, transacao);
-        transactionDescriptionInput(scanner, transacao);
-        transactionOriginAddressInput(scanner, transacao);
-        transactionDestinyAddressInput(scanner, transacao);
-        transactionHashInput(scanner, transacao);
-        transactionTaxInput(taxaInput, scanner, transacao);
-
-
-        System.out.println("\nDados Cadastrados!!!!");
-        System.out.println(transacao.getResumoTransacao());
-
-        System.out.println("Obrigado por usar a nossa ferramenta!!!!");
-        System.out.println("Finalizando Sistema....");
-
-        Art.getGoodbye();
-
     }
 
+    private static void userInput(Scanner scanner, Usuario usuario) {
+        System.out.println("\n### Cadastro de Usuário ###");
 
+        userNameInput(scanner, usuario);
+        userEmailInput(scanner, usuario);
+        userPasswordInput(scanner, usuario);
+        userCPFInput(scanner, usuario);
+        userTelNumberInput(scanner, usuario);
+
+        System.out.println("\nDados cadastrados!!!!");
+        System.out.println(usuario.getResumoUsuario());
+    }
 
 }
