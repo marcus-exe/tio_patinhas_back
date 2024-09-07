@@ -1,10 +1,14 @@
-package Contas;
+package account;
+
+import enums.StatusConta;
+import enums.TipoCriptoativo;
+import enums.TipoConta;
 
 import java.time.LocalDateTime;
 public class ContaInvestimento extends Conta {
-    private String tipoMoeda;
+    private TipoCriptoativo tipoCriptoativo;
     private LocalDateTime dataAbertura;
-    private String statusConta;
+    private StatusConta statusConta;
     private String enderecoCarteira;
 
     public ContaInvestimento() {
@@ -12,27 +16,27 @@ public class ContaInvestimento extends Conta {
         dataAbertura = LocalDateTime.now();
     }
 
-    public ContaInvestimento(String nrConta, String senhaConta, String tipoConta) {
+    public ContaInvestimento(String nrConta, String senhaConta, TipoConta tipoConta) {
         super(nrConta, senhaConta, tipoConta);
     }
 
-    public String getTipoMoeda() {
-        return tipoMoeda;
+    public TipoCriptoativo getTipoCriptoativo() {
+        return tipoCriptoativo;
     }
 
-    public void setTipoMoeda(String tipoMoeda) {
-        this.tipoMoeda = tipoMoeda;
+    public void setTipoCriptoativo(TipoCriptoativo tipoCriptoativo) {
+        this.tipoCriptoativo = tipoCriptoativo;
     }
 
     public LocalDateTime getDataAbertura() {
         return dataAbertura;
     }
 
-    public String getStatusConta() {
+    public StatusConta getStatusConta() {
         return statusConta;
     }
 
-    public void setStatusConta(String statusConta) {
+    public void setStatusConta(StatusConta statusConta) {
         this.statusConta = statusConta;
     }
 
@@ -50,7 +54,7 @@ public class ContaInvestimento extends Conta {
                 "\nSaldo: " + this.getSaldo() +
                 "\nSenha da Conta: R$" + this.getSenhaConta() +
                 "\nTipo da Conta: " + this.getTipoConta() +
-                "\nTipo de Moeda: " + this.getTipoMoeda() +
+                "\nTipo de Moeda: " + this.getTipoCriptoativo() +
                 "\nData de Abertura: " + this.getDataAbertura() +
                 "\nStatus da Conta: " + this.getStatusConta() +
                 "\nEndereço da Carteira: " + this.getEnderecoCarteira() + ".";

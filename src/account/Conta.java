@@ -1,16 +1,18 @@
-package Contas;
+package account;
+
+import enums.TipoConta;
 
 public abstract class Conta {
     private String nrConta;
     private double saldo;
     private String senhaConta;
-    private String tipoConta;
+    private TipoConta tipoConta;
 
     public Conta(){
 
     }
 
-    public Conta(String nrConta, String senhaConta, String tipoConta){
+    public Conta(String nrConta, String senhaConta, TipoConta tipoConta){
         this.nrConta = nrConta;
         this.saldo = 0;
         this.senhaConta = senhaConta;
@@ -41,11 +43,11 @@ public abstract class Conta {
         this.senhaConta = senhaConta;
     }
 
-    public String getTipoConta() {
+    public TipoConta getTipoConta() {
         return tipoConta;
     }
 
-    public void setTipoConta(String tipoConta) {
+    public void setTipoConta(TipoConta tipoConta) {
         this.tipoConta = tipoConta;
     }
 

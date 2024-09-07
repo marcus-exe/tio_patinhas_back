@@ -1,6 +1,7 @@
-package Cadastro;
+package register;
 
-import javax.swing.plaf.ButtonUI;
+import enums.TipoCriptoativo;
+
 import java.util.UUID;
 
 public class Corretora {
@@ -9,7 +10,7 @@ public class Corretora {
     private String cnpj;
     private String telefone;
     private String email;
-    private String tiposCriptoativosSuportados;
+    private TipoCriptoativo tiposCriptoativosSuportados;
     private String enderecoCarteiraCorretora;
 
     public Corretora() {
@@ -54,11 +55,11 @@ public class Corretora {
         this.email = email;
     }
 
-    public String getTiposCriptoativosSuportados() {
+    public TipoCriptoativo getTiposCriptoativosSuportados() {
         return tiposCriptoativosSuportados;
     }
 
-    public void setTiposCriptoativosSuportados(String tiposCriptoativosSuportados) {
+    public void setTiposCriptoativosSuportados(TipoCriptoativo tiposCriptoativosSuportados) {
         this.tiposCriptoativosSuportados = tiposCriptoativosSuportados;
     }
 

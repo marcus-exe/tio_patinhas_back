@@ -1,29 +1,36 @@
-package Ativos;
+package prices;
+
+import enums.TipoCriptoativo;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public abstract class HistoricoPrecos {
+    public TipoCriptoativo tipoCriptoativo;
     public UUID idRegistro;
     private LocalDateTime dataHora;
     private BigDecimal precoAbertura;
     private BigDecimal precoFechamento;
-    private BigDecimal precoMax;
-    private BigDecimal precoMin;
     private double volumeNegociacao;
 
-    public HistoricoPrecos(){
+    public HistoricoPrecos() {
         idRegistro = UUID.randomUUID();
         dataHora = LocalDateTime.now();
     }
 
-    public HistoricoPrecos(BigDecimal precoAbertura, BigDecimal precoFechamento, BigDecimal precoMax, BigDecimal precoMin, double volumeNegociacao){
+    public HistoricoPrecos(BigDecimal precoAbertura, BigDecimal precoFechamento, double volumeNegociacao) {
         this.precoAbertura = precoAbertura;
         this.precoFechamento = precoFechamento;
-        this.precoMax = precoMax;
-        this.precoMin = precoMin;
         this.volumeNegociacao = volumeNegociacao;
+    }
+
+    public TipoCriptoativo getTipoCriptoativo() {
+        return tipoCriptoativo;
+    }
+
+    public void setTipoCriptoativo(TipoCriptoativo tipoCriptoativo) {
+        this.tipoCriptoativo = tipoCriptoativo;
     }
 
     public UUID getIdRegistro() {
@@ -52,22 +59,6 @@ public abstract class HistoricoPrecos {
 
     public void setPrecoFechamento(BigDecimal precoFechamento) {
         this.precoFechamento = precoFechamento;
-    }
-
-    public BigDecimal getPrecoMax() {
-        return precoMax;
-    }
-
-    public void setPrecoMax(BigDecimal precoMax) {
-        this.precoMax = precoMax;
-    }
-
-    public BigDecimal getPrecoMin() {
-        return precoMin;
-    }
-
-    public void setPrecoMin(BigDecimal precoMin) {
-        this.precoMin = precoMin;
     }
 
     public double getVolumeNegociacao() {
