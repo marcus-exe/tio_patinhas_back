@@ -86,14 +86,19 @@ public class InputUtils {
                     "1 - Ativo\n" +
                     "2 - Inativo\n");
             statusContaInput = scanner.nextInt();
-
+            StatusConta statusConta;
             if (statusContaInput == 1) {
-                contaInvestimento.setStatusConta(StatusConta.ATIVA);
+                statusConta = StatusConta.ATIVA;
             } else if (statusContaInput == 2) {
-                contaInvestimento.setStatusConta(StatusConta.INATIVA);
+                statusConta = StatusConta.INATIVA;
             } else {
                 statusContaInput = -1;
+                statusConta = null;
             }
+            if (statusConta != null) {
+                contaInvestimento.setStatusConta(statusConta);
+            }
+
         } while (statusContaInput == -1);
     }
 
@@ -131,7 +136,7 @@ public class InputUtils {
         int tipoContaInput;
         do {
             System.out.println("Digite o tipo da sua conta:\n" +
-                    "1 - Conta Corrente" +
+                    "1 - Conta Corrente\n" +
                     "2 - Conta Poupança ");
             tipoContaInput = scanner.nextInt();
 
@@ -188,7 +193,6 @@ public class InputUtils {
                 System.out.println("Index: " + i + ", Criptoativo: " + cripto.getNome() + ", Símbolo: " + cripto.getSimbolo());
             }
 
-            System.out.println("Qual são os tipos de criptoativos suportados pela sua corretora?");
             tiposCriptoativosInput = scanner.nextInt();
 
             if (tiposCriptoativosInput >= 0 && tiposCriptoativosInput <= TipoCriptoativo.values().length) {

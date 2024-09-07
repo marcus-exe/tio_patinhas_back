@@ -1,19 +1,18 @@
-import java.math.BigDecimal;
-import java.util.*;
-
+import account.ContaInvestimento;
 import register.Corretora;
 import register.Endereco;
 import register.Usuario;
-import account.ContaInvestimento;
 import transaction.Transacao;
-import enums.StatusConta;
-import enums.TipoConta;
-import enums.TipoCriptoativo;
+import utils.Art;
+
+import java.util.Scanner;
 
 import static utils.InputUtils.*;
 
 public class Main {
     public static void main(String[] args) {
+
+
 
         Endereco endereco = new Endereco();
         Usuario usuario = new Usuario();
@@ -23,7 +22,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("\n--------- Bem-vindo ao Banco de Investimentos de Bitcoins!!! ----------");
+        Art.getWelcome();
 
         /*--------------USUARIO-------------------------*/
 
@@ -94,7 +93,7 @@ public class Main {
         /*--------------Transação-------------------------*/
 
 
-        System.out.println("Para realizar uma transação, preeencha as informações a seguir.");
+        System.out.println("\nPara realizar uma transação, preeencha as informações a seguir.");
 
         double taxaInput = 0.1;
 
@@ -111,6 +110,8 @@ public class Main {
 
         System.out.println("Obrigado por usar a nossa ferramenta!!!!");
         System.out.println("Finalizando Sistema....");
+
+        Art.getGoodbye();
 
     }
 
