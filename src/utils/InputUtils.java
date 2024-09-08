@@ -85,7 +85,11 @@ public class InputUtils {
             System.out.println("Digite o status da sua conta: \n" +
                     "1 - Ativo\n" +
                     "2 - Inativo\n");
-            statusContaInput = scanner.nextInt();
+            try {
+                statusContaInput = scanner.nextInt();
+            } catch (Exception e) {
+                statusContaInput = -1;
+            }
             StatusConta statusConta;
             if (statusContaInput == 1) {
                 statusConta = StatusConta.ATIVA;
@@ -138,8 +142,11 @@ public class InputUtils {
             System.out.println("Digite o tipo da sua conta:\n" +
                     "1 - Conta Corrente\n" +
                     "2 - Conta Poupança\n ");
-            tipoContaInput = scanner.nextInt();
-
+            try {
+                tipoContaInput = scanner.nextInt();
+            } catch (Exception e) {
+                tipoContaInput = -1;
+            }
             TipoConta tipoConta;
             if (tipoContaInput == 2) {
                 tipoConta = TipoConta.CONTA_CORRENTE;
