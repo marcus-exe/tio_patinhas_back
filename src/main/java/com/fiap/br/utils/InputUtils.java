@@ -2,14 +2,14 @@ package com.fiap.br.utils;
 
 
 
-import com.fiap.br.account.ContaInvestimento;
-import com.fiap.br.enums.StatusConta;
-import com.fiap.br.enums.TipoConta;
-import com.fiap.br.enums.TipoCriptoativo;
-import com.fiap.br.register.Corretora;
-import com.fiap.br.register.Endereco;
-import com.fiap.br.register.Usuario;
-import com.fiap.br.transaction.Transacao;
+import com.fiap.br.models.account.ContaInvestimento;
+import com.fiap.br.models.enums.StatusConta;
+import com.fiap.br.models.enums.TipoConta;
+import com.fiap.br.models.enums.TipoCriptoativo;
+import com.fiap.br.models.register.Corretora;
+import com.fiap.br.models.register.Endereco;
+import com.fiap.br.models.register.Usuario;
+import com.fiap.br.models.transaction.Transacao;
 
 import java.math.BigDecimal;
 import java.util.Objects;

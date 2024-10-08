@@ -1,14 +1,15 @@
 package com.fiap.br;
 
-import com.fiap.br.account.ContaInvestimento;
-import com.fiap.br.register.Corretora;
-import com.fiap.br.register.Endereco;
-import com.fiap.br.register.Usuario;
-import com.fiap.br.transaction.Transacao;
+import com.fiap.br.dao.InitSQL;
+import com.fiap.br.models.account.ContaInvestimento;
+import com.fiap.br.factory.ConnectionFactory;
+import com.fiap.br.models.register.Corretora;
+import com.fiap.br.models.register.Endereco;
+import com.fiap.br.models.register.Usuario;
+import com.fiap.br.models.transaction.Transacao;
 import com.fiap.br.utils.Art;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -17,12 +18,11 @@ import static com.fiap.br.utils.InputUtils.*;
 public class Main {
     public static void main(String[] args) {
 
-        String jdbcUrl = "jdbc:oracle:thin:@localhost:1521/ORCLPDB";
-        String username = "marcus";
-        String password = "password123";
         try {
-            Connection conexao = DriverManager.getConnection(jdbcUrl,username,password);
-            System.out.println("Conexão realizada!");
+            InitSQL initSQL = new InitSQL();
+            initSQL.initSQL();
+            initSQL.closeConection();
+            System.out.println("Init SQL Executado com Sucesso");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
