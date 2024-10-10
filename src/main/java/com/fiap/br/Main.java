@@ -1,15 +1,15 @@
 package com.fiap.br;
 
+import com.fiap.br.dao.CheckTablesExistence;
 import com.fiap.br.dao.InitSQL;
 import com.fiap.br.models.account.ContaInvestimento;
-import com.fiap.br.factory.ConnectionFactory;
 import com.fiap.br.models.register.Corretora;
 import com.fiap.br.models.register.Endereco;
 import com.fiap.br.models.register.Usuario;
 import com.fiap.br.models.transaction.Transacao;
 import com.fiap.br.utils.Art;
 
-import java.sql.Connection;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -19,10 +19,22 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            InitSQL initSQL = new InitSQL();
-            initSQL.initSQL();
-            initSQL.closeConection();
-            System.out.println("Init SQL Executado com Sucesso");
+            CheckTablesExistence checkTablesExistence = new CheckTablesExistence();
+            for (String tableName: checkTablesExistence.tablesToCheck) {
+                if (!checkTablesExistence.checkTableExists(tableName)) {
+                    try {
+                        InitSQL initSQL = new InitSQL();
+                        initSQL.initSQL();
+                        initSQL.closeConection();
+                        System.out.println("Init SQL Executado com Sucesso");
+                    } catch (SQLException | IOException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                } else {
+                    System.out.println("Tables already exist");
+                }
+            }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
