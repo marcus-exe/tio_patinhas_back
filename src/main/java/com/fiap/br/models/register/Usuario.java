@@ -10,6 +10,10 @@ public class Usuario {
     private String cpfCnpj;
     private String telefone;
     private Date dataCriacao;
+    private Date dataNascimento;
+    private String cep;
+    private String pais;
+
 
     public Usuario() {
         idUsuario = UUID.randomUUID();
@@ -68,6 +72,30 @@ public class Usuario {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+        public java.sql.Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public String getResumoUsuario(){
