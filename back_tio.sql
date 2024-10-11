@@ -37,16 +37,17 @@ CREATE TABLE CORRETORA (
 
 -- Create CONTAS_CRIPTO table
 CREATE TABLE CONTAS_CRIPTO (
-    nr_conta           NUMBER(10) NOT NULL PRIMARY KEY,
+    nr_conta           VARCHAR(10) NOT NULL PRIMARY KEY,
+    password           VARCHAR(50) NOT NULL,
     tipo_conta         VARCHAR2(100) NOT NULL,
     saldo              NUMBER(10,2) NOT NULL,
     data_abertura      DATE NOT NULL,
     status_conta       VARCHAR2(20) NOT NULL,
     endereco_carteira  VARCHAR2(100) NOT NULL,
     id_cliente         VARCHAR2(50) NOT NULL,
-    id_corretora       VARCHAR2(50) NOT NULL,
-    FOREIGN KEY (id_cliente) REFERENCES CLIENTES (id_cliente) ON DELETE CASCADE,
-    FOREIGN KEY (id_corretora) REFERENCES CORRETORA (id_corretora) ON DELETE CASCADE
+    id_corretora       VARCHAR2(50) NOT NULL
+    -- FOREIGN KEY (id_cliente) REFERENCES CLIENTES (id_cliente) ON DELETE CASCADE,
+    -- FOREIGN KEY (id_corretora) REFERENCES CORRETORA (id_corretora) ON DELETE CASCADE
 );
 
 -- Create TRANSACAO_CRIPTO table

@@ -2,7 +2,7 @@ package com.fiap.br.utils;
 
 
 
-import com.fiap.br.models.account.ContaInvestimento;
+import com.fiap.br.models.account.Conta;
 import com.fiap.br.models.enums.StatusConta;
 import com.fiap.br.models.enums.TipoConta;
 import com.fiap.br.models.enums.TipoCriptoativo;
@@ -81,7 +81,7 @@ public class InputUtils {
         } while (montanteInput == null);
     }
 
-    public static void accountStatusInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    public static void accountStatusInput(Scanner scanner, Conta contaInvestimento) {
         int statusContaInput;
         do {
             System.out.println("Digite o status da sua conta: \n" +
@@ -108,7 +108,7 @@ public class InputUtils {
         } while (statusContaInput == -1);
     }
 
-    public static void accountAddressInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    public static void accountAddressInput(Scanner scanner, Conta contaInvestimento) {
         String endereco_carteira;
         do {
             System.out.println("Digite o endereço da carteira da sua conta: ");
@@ -117,7 +117,7 @@ public class InputUtils {
         } while (Objects.equals(endereco_carteira, ""));
     }
 
-    public static void accountCryptoTypeInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    public static void accountCryptoTypeInput(Scanner scanner, Conta contaInvestimento) {
         int tipoMoedaInput;
         do {
             System.out.println("Digite o tipo de moeda da sua conta: ");
@@ -138,7 +138,7 @@ public class InputUtils {
         } while (tipoMoedaInput == -1);
     }
 
-    public static void accountTypeInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    public static void accountTypeInput(Scanner scanner, Conta contaInvestimento) {
         int tipoContaInput;
         do {
             System.out.println("Digite o tipo da sua conta:\n" +
@@ -164,7 +164,7 @@ public class InputUtils {
         } while (tipoContaInput != 1);
     }
 
-    public static void accountPasswordInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    public static void accountPasswordInput(Scanner scanner, Conta contaInvestimento) {
         String senhaContaInput;
         do {
             System.out.println("Digite a senha da sua conta: ");
@@ -173,7 +173,7 @@ public class InputUtils {
         } while (Objects.equals(senhaContaInput, ""));
     }
 
-    public static void accountNumberInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    public static void accountNumberInput(Scanner scanner, Conta contaInvestimento) {
         String nrContaInput;
         do {
             System.out.println("Digite o número da sua conta: ");

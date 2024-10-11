@@ -1,8 +1,9 @@
 package com.fiap.br;
 
+import com.fiap.br.dao.AccountDAO;
 import com.fiap.br.dao.CheckTablesExistence;
 import com.fiap.br.dao.InitSQL;
-import com.fiap.br.models.account.ContaInvestimento;
+import com.fiap.br.models.account.Conta;
 import com.fiap.br.models.register.Corretora;
 import com.fiap.br.models.register.Endereco;
 import com.fiap.br.models.register.Usuario;
@@ -18,6 +19,8 @@ import static com.fiap.br.utils.InputUtils.*;
 public class Main {
     public static void main(String[] args) {
 
+
+        //Init.SQL
         try {
             CheckTablesExistence checkTablesExistence = new CheckTablesExistence();
             for (String tableName: checkTablesExistence.tablesToCheck) {
@@ -39,16 +42,13 @@ public class Main {
             System.err.println(e.getMessage());
         }
 
-        Endereco endereco = new Endereco();
-        Usuario usuario = new Usuario();
-        Corretora corretora = new Corretora();
-        ContaInvestimento contaInvestimento = new ContaInvestimento();
-        Transacao transacao = new Transacao();
-
+        // Scanner Openning
         Scanner scanner = new Scanner(System.in);
 
+        // ASCII Art
         Art.getWelcome();
 
+        // Interaction Loop
         int option = -1;
         do {
             System.out.println("\nEscolha uma das opções:\n" +
@@ -60,35 +60,40 @@ public class Main {
                     "-1 - Sair\n");
             option = scanner.nextInt();
 
-            switch (option) {
-                case 1 -> {
-                    userInput(scanner, usuario);
-                }
-                case 2 -> {
-                    addressInput(scanner, endereco);
-                }
-                case 3 -> {
-                    brokerInput(scanner, corretora);
-                }
-                case 4 -> {
-                    accountInput(scanner, contaInvestimento);
-                }
-                case 5 -> {
-                    transaction(scanner, transacao);
-                }
-                case -1 -> {
-                    Art.getGoodbye();
-                }
-                default -> {
-                    System.out.println("Valor Inválido");
+            try {
+                switch (option) {
+                    case 1 -> {
+                        userInput(scanner);
+                    }
+                    case 2 -> {
+                        addressInput(scanner);
+                    }
+                    case 3 -> {
+                        brokerInput(scanner);
+                    }
+                    case 4 -> {
+                        accountInput(scanner);
+                    }
+                    case 5 -> {
+                        transaction(scanner);
+                    }
+                    case -1 -> {
+                        Art.getGoodbye();
+                    }
+                    default -> {
+                        System.out.println("Valor Inválido");
+                    }
                 }
             }
-
+            catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
         } while (option != -1);
 
     }
 
-    private static void transaction(Scanner scanner, Transacao transacao) {
+    private static void transaction(Scanner scanner) {
+        Transacao transacao = new Transacao();
         System.out.println("\n### Realizar Transação. ###");
 
         double taxaInput = 0.1;
@@ -104,21 +109,27 @@ public class Main {
         System.out.println(transacao.getResumoTransacao());
     }
 
-    private static void accountInput(Scanner scanner, ContaInvestimento contaInvestimento) {
+    private static void accountInput(Scanner scanner) throws SQLException {
+        Conta conta = new Conta();
+        AccountDAO accountDAO = new AccountDAO();
+
         System.out.println("\n ### Cadastro de Conta. ### ");
 
-        accountNumberInput(scanner, contaInvestimento);
-        accountPasswordInput(scanner, contaInvestimento);
-        accountTypeInput(scanner, contaInvestimento);
-        accountCryptoTypeInput(scanner, contaInvestimento);
-        accountStatusInput(scanner, contaInvestimento);
-        accountAddressInput(scanner, contaInvestimento);
+        accountNumberInput(scanner, conta);
+        accountPasswordInput(scanner, conta);
+        accountTypeInput(scanner, conta);
+        accountCryptoTypeInput(scanner, conta);
+        accountStatusInput(scanner, conta);
+        accountAddressInput(scanner, conta);
+
+        accountDAO.registerAccount(conta);
 
         System.out.println("\nDados Cadastrados!!!!");
-        System.out.println(contaInvestimento.getResumoConta());
+        System.out.println(conta.getResumoConta());
     }
 
-    private static void brokerInput(Scanner scanner, Corretora corretora) {
+    private static void brokerInput(Scanner scanner) {
+        Corretora corretora = new Corretora();
         System.out.println("\n### Cadastro de Corretora. ###");
 
         brokerNameInput(scanner, corretora);
@@ -132,7 +143,8 @@ public class Main {
         System.out.println(corretora.getResumoCorretora());
     }
 
-    private static void addressInput(Scanner scanner, Endereco endereco) {
+    private static void addressInput(Scanner scanner) {
+        Endereco endereco = new Endereco();
         System.out.println("\n### Cadastro de Endereço. ###");
 
         int numberInput = -1;
@@ -149,7 +161,8 @@ public class Main {
         System.out.println(endereco.getResumoEndereco());
     }
 
-    private static void userInput(Scanner scanner, Usuario usuario) {
+    private static void userInput(Scanner scanner) {
+        Usuario usuario = new Usuario();
         System.out.println("\n### Cadastro de Usuário ###");
 
         userNameInput(scanner, usuario);

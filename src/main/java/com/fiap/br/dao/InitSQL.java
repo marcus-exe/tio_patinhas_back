@@ -27,7 +27,6 @@ public class InitSQL {
 
         for (String sqlStatement : sqlStatements) {
             if (!sqlStatement.trim().isEmpty()) {
-                //conection.prepareStatement(sqlStatement.trim());
                 statement.executeUpdate(sqlStatement.trim());
             }
         }
