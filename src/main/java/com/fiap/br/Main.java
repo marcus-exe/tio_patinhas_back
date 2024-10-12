@@ -1,8 +1,6 @@
 package com.fiap.br;
 
-import com.fiap.br.dao.AccountDAO;
-import com.fiap.br.dao.CheckTablesExistence;
-import com.fiap.br.dao.InitSQL;
+import com.fiap.br.dao.*;
 import com.fiap.br.models.account.Conta;
 import com.fiap.br.models.register.Corretora;
 import com.fiap.br.models.register.Endereco;
@@ -42,7 +40,7 @@ public class Main {
             System.err.println(e.getMessage());
         }
 
-        // Scanner Openning
+        // Scanner Opening
         Scanner scanner = new Scanner(System.in);
 
         // ASCII Art
@@ -92,6 +90,7 @@ public class Main {
 
     }
 
+    // Falta criar um DAO para isso aqui
     private static void transaction(Scanner scanner) {
         Transacao transacao = new Transacao();
         System.out.println("\n### Realizar Transação. ###");
@@ -128,8 +127,9 @@ public class Main {
         System.out.println(conta.getResumoConta());
     }
 
-    private static void brokerInput(Scanner scanner) {
+    private static void brokerInput(Scanner scanner) throws SQLException {
         Corretora corretora = new Corretora();
+        CorretoraDAO corretoraDAO = new CorretoraDAO();
         System.out.println("\n### Cadastro de Corretora. ###");
 
         brokerNameInput(scanner, corretora);
@@ -139,12 +139,15 @@ public class Main {
         brokerCriptoActivesInput(scanner, corretora); //still need to make it a list
         brokerAddressInput(scanner, corretora);
 
+        corretoraDAO.registerCorretora(corretora);
+
         System.out.println("\nDados cadastrados!!!!");
         System.out.println(corretora.getResumoCorretora());
     }
 
-    private static void addressInput(Scanner scanner) {
+    private static void addressInput(Scanner scanner) throws SQLException {
         Endereco endereco = new Endereco();
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
         System.out.println("\n### Cadastro de Endereço. ###");
 
         int numberInput = -1;
@@ -157,12 +160,15 @@ public class Main {
         addressZipCodeInput(scanner, endereco);
         addressCountryInput(scanner, endereco);
 
+        enderecoDAO.registerEndereco(endereco);
+
         System.out.println("\nDados cadastrados!!!!");
         System.out.println(endereco.getResumoEndereco());
     }
 
-    private static void userInput(Scanner scanner) {
+    private static void userInput(Scanner scanner) throws SQLException {
         Usuario usuario = new Usuario();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
         System.out.println("\n### Cadastro de Usuário ###");
 
         userNameInput(scanner, usuario);
@@ -170,6 +176,8 @@ public class Main {
         userPasswordInput(scanner, usuario);
         userCPFInput(scanner, usuario);
         userTelNumberInput(scanner, usuario);
+
+        usuarioDAO.registerUsuario(usuario);
 
         System.out.println("\nDados cadastrados!!!!");
         System.out.println(usuario.getResumoUsuario());

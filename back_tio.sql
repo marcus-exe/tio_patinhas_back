@@ -32,7 +32,7 @@ CREATE TABLE CORRETORA (
     cnpj               VARCHAR2(50) NOT NULL,
     email              VARCHAR2(100) NOT NULL,
     telefone           VARCHAR2(50) NOT NULL,
-    tipos_criptoativos_suportados BLOB NOT NULL,
+    tipos_criptoativos_suportados VARCHAR(100),
     endereco_carteira_corretora VARCHAR2(50) NOT NULL
 );
 
@@ -64,10 +64,10 @@ CREATE TABLE TRANSACAO_CRIPTO (
     taxa_transacao     NUMBER(5) NOT NULL,
     nr_conta           NUMBER(10) NOT NULL,
     id_cliente         VARCHAR2(50) NOT NULL,
-    id_corretora       VARCHAR2(50) NOT NULL,
-    FOREIGN KEY (nr_conta) REFERENCES CONTAS_CRIPTO (nr_conta) ON DELETE CASCADE,
-    FOREIGN KEY (id_cliente) REFERENCES CLIENTES (id_cliente) ON DELETE CASCADE,
-    FOREIGN KEY (id_corretora) REFERENCES CORRETORA (id_corretora) ON DELETE CASCADE
+    id_corretora       VARCHAR2(50) NOT NULL
+    -- FOREIGN KEY (nr_conta) REFERENCES CONTAS_CRIPTO (nr_conta) ON DELETE CASCADE,
+    -- FOREIGN KEY (id_cliente) REFERENCES CLIENTES (id_cliente) ON DELETE CASCADE,
+    -- FOREIGN KEY (id_corretora) REFERENCES CORRETORA (id_corretora) ON DELETE CASCADE
 );
 
 -- Create CRIPTOMOEDAS table
@@ -86,6 +86,6 @@ CREATE TABLE HISTORICO_PRECOS (
     preco_max          NUMBER(10,2) NOT NULL,
     preco_min          NUMBER(10,2) NOT NULL,
     volume_negociacao  NUMBER(10,2) NOT NULL,
-    id_criptomoeda     VARCHAR2(50) NOT NULL,
-    FOREIGN KEY (id_criptomoeda) REFERENCES CRIPTOMOEDAS (id_criptomoeda) ON DELETE CASCADE
+    id_criptomoeda     VARCHAR2(50) NOT NULL
+    -- FOREIGN KEY (id_criptomoeda) REFERENCES CRIPTOMOEDAS (id_criptomoeda) ON DELETE CASCADE
 );
