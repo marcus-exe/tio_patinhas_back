@@ -1,18 +1,23 @@
 package com.fiap.br.models.transaction;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class Transacao {
     public UUID idTransacao;
+    private String nrConta;
+    private String tipoTransacao;
     private BigDecimal montante;
-    private LocalDateTime data;
+    private Date data;
     private String descricao;
     private String contaOrigem;
     private String contaDestino;
     private String hashTransacao;
     private double taxaTransacao;
+    public UUID idCliente;
+    public UUID idCorretora;
 
     public UUID getIdTransacao() {
         return idTransacao;
@@ -26,9 +31,9 @@ public class Transacao {
         this.montante = montante;
     }
 
-    public LocalDateTime getData() { return data; }
+    public Date getData() { return data; }
 
-    public void setData(LocalDateTime data) {
+    public void setData(Date data) {
         this.data = data;
     }
 
@@ -63,6 +68,13 @@ public class Transacao {
     public void setHashTransacao(String hashTransacao) {
         this.hashTransacao = hashTransacao;
     }
+    public String getTipoTransacao() {
+        return tipoTransacao;
+    }
+
+    public void setTipoTransacao(String tipoTransacao) {
+        this.tipoTransacao = tipoTransacao;
+    }
 
     public double getTaxaTransacao() {
         return taxaTransacao;
@@ -71,6 +83,29 @@ public class Transacao {
     public void setTaxaTransacao(double taxaTransacao) {
         this.taxaTransacao = taxaTransacao;
     }
+    public String getNrConta() {
+        return nrConta;
+    }
+
+    public void setNrConta(String nrConta) {
+        this.nrConta = nrConta;
+    }
+    public Transacao() {
+        idCorretora = UUID.randomUUID();
+        idCliente = UUID.randomUUID();
+    }
+
+    //getter and setters
+
+    public UUID getIdCorretora() {
+        return idCorretora;
+    }
+    //getter and setters
+
+    public UUID getIdCliente() {
+        return idCliente;
+    }
+
 
     public String getResumoTransacao() {
         return  "ID da Transação: " + this.getIdTransacao() +
