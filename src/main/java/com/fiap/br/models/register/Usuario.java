@@ -18,6 +18,9 @@ public class Usuario {
     public Usuario() {
         idUsuario = UUID.randomUUID();
         dataCriacao = new Date();
+        dataNascimento = new Date();
+        cep =  "1111111";
+        pais = "BR";
     }
 
     //getter and setters
@@ -66,16 +69,16 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public Date getDataCriacao() {
-        return dataCriacao;
+    public java.sql.Date getDataCriacao() {
+        return new java.sql.Date(dataCriacao.getTime());
     }
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-        public java.sql.Date getDataNascimento() {
-        return dataNascimento;
+    public java.sql.Date getDataNascimento() {
+        return new java.sql.Date(dataNascimento.getTime());
     }
 
     public void setDataNascimento(Date dataNascimento) {
