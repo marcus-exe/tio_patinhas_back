@@ -35,7 +35,7 @@ public class AccountDAO {
     }
 
     public void updateAccount(Conta conta) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("update contas_cripto set nr_conta = ?, senha_conta = ?, tipo_conta = ?, tipo_criptoativo = ?, data_abertura = ?, status = ?, endereco_carteira = ?, id_cliente = ?, id_corretora = ? where nr_conta = ?");
+        PreparedStatement stm = connection.prepareStatement("update contas_cripto set nr_conta = ?, password = ?, tipo_conta = ?, saldo = ?, data_abertura = ?, status_conta = ?, endereco_carteira = ?, id_cliente = ?, id_corretora = ? where nr_conta = ?");
         stm.setString(1, conta.getNrConta());
         stm.setString(2, conta.getSenhaConta());
         stm.setString(3, conta.getTipoConta());
