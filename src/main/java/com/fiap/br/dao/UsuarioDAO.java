@@ -34,6 +34,29 @@ public class UsuarioDAO {
         PreparedStatement stm = connection.prepareStatement("select * from clientes where id = ?");
         stm.setString(1, id);
     }
+
+    public void updateUsuario(Usuario usuario) throws SQLException {
+        PreparedStatement stm = connection.prepareStatement("update clientes set id_cliente = ?, nome_completo = ?, data_nascimento = ?, cpf_cnpj = ?, email = ?, senha = ?, telefone = ?, data_criacao = ?, cep = ?, pais = ? where id_clientes = ?");
+        stm.setString(1, usuario.getIdUsuario().toString());
+        stm.setString(2, usuario.getNomeCompleto());
+        stm.setDate(3, usuario.getDataNascimento());
+        stm.setString(4, usuario.getCpfCnpj());
+        stm.setString(5, usuario.getEmail());
+        stm.setString(6, usuario.getSenha());
+        stm.setString(7, usuario.getTelefone());
+        stm.setDate(8, usuario.getDataCriacao());
+        stm.setString(9, usuario.getCep());
+        stm.setString(10, usuario.getPais());
+        stm.executeUpdate();
+    }
+
+    public void deleteUsuario(String id_usuario) throws SQLException{
+        PreparedStatement stm = connection.prepareStatement("delete from clientes where id_usuario = ?");
+        stm.setString(1, id_usuario);
+        int linha = stm.executeUpdate();
+        if (linha == 0)
+            throw new SQLException("Usuário não encontrado para ser removido");
+    }
 }
 
 
