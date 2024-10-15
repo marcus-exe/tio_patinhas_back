@@ -33,4 +33,26 @@ public class AccountDAO {
         PreparedStatement stm = connection.prepareStatement("select * from contas_cripto where id = ?");
         stm.setString(1, id);
     }
+
+    public void updateAccount(Conta conta) throws SQLException {
+        PreparedStatement stm = connection.prepareStatement("update contas_cripto set nr_conta = ?, senha_conta = ?, tipo_conta = ?, tipo_criptoativo = ?, data_abertura = ?, status = ?, endereco_carteira = ?, id_cliente = ?, id_corretora = ? where nr_conta = ?");
+        stm.setString(1, conta.getNrConta());
+        stm.setString(2, conta.getSenhaConta());
+        stm.setString(3, conta.getTipoConta());
+        stm.setDouble(4, conta.getSaldo());
+        stm.setDate(5, conta.getDataCriacao());
+        stm.setString(6, conta.getStatusConta());
+        stm.setString(7, conta.getEnderecoCarteira());
+        stm.setString(8, conta.getIdCliente().toString());
+        stm.setString(9, conta.getIdCorretora().toString());
+        stm.executeUpdate();
+    }
+
+    public void deleteAccount(String id_conta) throws SQLException{
+        PreparedStatement stm = connection.prepareStatement("delete from contas_cripto where nr_conta = ?");
+        stm.setString(1, id_conta);
+        int linha = stm.executeUpdate();
+        if (linha == 0)
+            throw new SQLException("Conta não encontrada para ser removida");
+    }
 }
