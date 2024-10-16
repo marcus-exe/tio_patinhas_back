@@ -46,6 +46,12 @@ public class Main {
         // ASCII Art
         Art.getWelcome();
 
+        // Disclaimer
+        // Disclaimer
+        System.out.println("- Disclaimer: \n" +
+                "  - Projeto adaptado a uma lógica de CLI, ou seja, nem todos os elementos estão conforme a documentação\n" +
+                "  - Não foi possível implementar os métodos delete, put : por questão de tempo, não de desafio técnico");
+
         // Interaction Loop
         int option = -1;
         do {
@@ -87,10 +93,8 @@ public class Main {
                 System.err.println(e.getMessage());
             }
         } while (option != -1);
-
     }
 
-    // Falta criar um DAO para isso aqui
     private static void transaction(Scanner scanner) {
         Transacao transacao = new Transacao();
         System.out.println("\n### Realizar Transação. ###");
