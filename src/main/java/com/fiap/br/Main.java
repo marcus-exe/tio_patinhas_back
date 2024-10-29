@@ -56,30 +56,125 @@ public class Main {
         int option = -1;
         do {
             System.out.println("\nEscolha uma das opções:\n" +
-                    "1 - Cadastrar Usuário\n" +
-                    "2 - Cadastrar Endereço\n" +
-                    "3 - Cadastrar Corretora\n" +
-                    "4 - Cadastrar ContaInvestimento\n" +
-                    "5 - Realizar Transação\n" +
+                    "1 - Central de  Usuários\n" +
+                    "2 - Central de Endereços\n" +
+                    "3 - Central de Corretoras\n" +
+                    "4 - Central de ContasInvestimento\n" +
+                    "5 - Central de Transações\n" +
                     "-1 - Sair\n");
             option = scanner.nextInt();
 
             try {
                 switch (option) {
                     case 1 -> {
-                        userInput(scanner);
+                        do {
+                            System.out.println("\nCentral de ações de Usuários:\n" +
+                                    "1 - Cadastrar Usuário\n" +
+                                    "2 - Modificar Usuário\n" +
+                                    "3 - Apagar Usuário\n" +
+                                    "4 - Mostrar todos os Usuários\n" +
+                                    "-1 - Sair\n");
+                            option = scanner.nextInt();
+                            switch (option) {
+                                case 1 -> {
+                                    userInput(scanner);
+                                }
+                                case -1 -> {
+                                    Art.getGoodbye();
+                                }
+                                default -> {
+                                    System.out.println("Valor Inválido");
+                                }
+                            }
+                        } while (option != -1);
                     }
                     case 2 -> {
-                        addressInput(scanner);
+                        do {
+                            System.out.println("\nCentral de ações de Endereços:\n" +
+                                    "1 - Cadastrar Endereço\n" +
+                                    "2 - Modificar Endereço\n" +
+                                    "3 - Apagar Endereço\n" +
+                                    "4 - Mostrar todos os Endereços\n" +
+                                    "-1 - Sair\n");
+                            option = scanner.nextInt();
+                            switch (option) {
+                                case 1 -> {
+                                    addressInput(scanner);
+                                }
+                                case -1 -> {
+                                    Art.getGoodbye();
+                                }
+                                default -> {
+                                    System.out.println("Valor Inválido");
+                                }
+                            }
+                        } while (option != -1);
                     }
                     case 3 -> {
-                        brokerInput(scanner);
+                        do {
+                            System.out.println("\nCentral de ações de Corretoras:\n" +
+                                    "1 - Cadastrar Corretora\n" +
+                                    "2 - Modificar Corretora\n" +
+                                    "3 - Apagar Corretora\n" +
+                                    "4 - Mostrar todos os Corretoras\n" +
+                                    "-1 - Sair\n");
+                            option = scanner.nextInt();
+                            switch (option) {
+                                case 1 -> {
+                                    brokerInput(scanner);
+                                }
+                                case -1 -> {
+                                    Art.getGoodbye();
+                                }
+                                default -> {
+                                    System.out.println("Valor Inválido");
+                                }
+                            }
+                        } while (option != -1);
                     }
                     case 4 -> {
-                        accountInput(scanner);
+                        do {
+                            System.out.println("\nCentral de ações de ContasInvestimento:\n" +
+                                    "1 - Cadastrar ContaInvestimento\n" +
+                                    "2 - Modificar ContaInvestimento\n" +
+                                    "3 - Apagar ContaInvestimento\n" +
+                                    "4 - Mostrar todos os ContasInvestimento\n" +
+                                    "-1 - Sair\n");
+                            option = scanner.nextInt();
+                            switch (option) {
+                                case 1 -> {
+                                    accountInput(scanner);
+                                }
+                                case -1 -> {
+                                    Art.getGoodbye();
+                                }
+                                default -> {
+                                    System.out.println("Valor Inválido");
+                                }
+                            }
+                        } while (option != -1);
                     }
                     case 5 -> {
-                        transaction(scanner);
+                        do {
+                            System.out.println("\nCentral de ações de Transações:\n" +
+                                    "1 - Cadastrar Transação\n" +
+                                    "2 - Modificar Transação\n" +
+                                    "3 - Apagar Transação\n" +
+                                    "4 - Mostrar todas as Transações\n" +
+                                    "-1 - Sair\n");
+                            option = scanner.nextInt();
+                            switch (option) {
+                                case 1 -> {
+                                    transaction(scanner);
+                                }
+                                case -1 -> {
+                                    Art.getGoodbye();
+                                }
+                                default -> {
+                                    System.out.println("Valor Inválido");
+                                }
+                            }
+                        } while (option != -1);
                     }
                     case -1 -> {
                         Art.getGoodbye();
