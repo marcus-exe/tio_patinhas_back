@@ -45,7 +45,7 @@ public class InputUtils {
             System.out.println("Qual o endereco de destino da transação?");
             enderecoDestinoInput = scanner.nextLine();
             transacao.setContaDestino(enderecoDestinoInput);
-        } while (enderecoDestinoInput == "");
+        } while (enderecoDestinoInput.isEmpty() );
     }
 
     public static void transactionOriginAddressInput(Scanner scanner, Transacao transacao) {
@@ -362,7 +362,7 @@ public class InputUtils {
             if (Formatters.validatePassword(senhaUsuarioInput)) {
                 usuario.setSenha(senhaUsuarioInput);
             } else {
-                System.out.println("Digite uma tenha maior que 10 dígitos");
+                System.out.println("Digite uma senha maior que 10 dígitos");
                 senhaUsuarioInput = "";
             }
         } while (Objects.equals(senhaUsuarioInput, ""));
