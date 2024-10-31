@@ -33,17 +33,16 @@ public class UsuarioDAO {
     }
 
     public List<Usuario> listar() throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("SELECT * FROM clientes");
+        PreparedStatement stm = connection.prepareStatement("SELECT * FROM CLIENTES");
         ResultSet result = stm.executeQuery();
         List<Usuario> lista = new ArrayList<>();
         while (result.next()){
-
             lista.add(parseUsuario(result));
         }
         return lista;
     }
     public Usuario getUsuario(String id) throws SQLException, EntidadeNaoEcontradaException {
-        PreparedStatement stm = connection.prepareStatement("select * from clientes where id = ?");
+        PreparedStatement stm = connection.prepareStatement("select * from clientes where id_cliente = ?");
         stm.setString(1, id);
         ResultSet result = stm.executeQuery();
         if (!result.next())
@@ -53,26 +52,21 @@ public class UsuarioDAO {
 
     private Usuario parseUsuario(ResultSet result) throws SQLException {
         String id = result.getString("id_cliente");
-        return new Usuario(id);
+        String nomeCompleto = result.getString("nome_completo");
+        return new Usuario(id, nomeCompleto);
     }
 
+
+
     public void updateUsuario(Usuario usuario) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("update clientes set id_cliente = ?, nome_completo = ?, data_nascimento = ?, cpf_cnpj = ?, email = ?, senha = ?, telefone = ?, data_criacao = ?, cep = ?, pais = ? where id_clientes = ?");
-        stm.setString(1, usuario.getIdUsuario().toString());
-        stm.setString(2, usuario.getNomeCompleto());
-        stm.setDate(3, usuario.getDataNascimento());
-        stm.setString(4, usuario.getCpfCnpj());
-        stm.setString(5, usuario.getEmail());
-        stm.setString(6, usuario.getSenha());
-        stm.setString(7, usuario.getTelefone());
-        stm.setDate(8, usuario.getDataCriacao());
-        stm.setString(9, usuario.getCep());
-        stm.setString(10, usuario.getPais());
+        PreparedStatement stm = connection.prepareStatement("update clientes set nome_completo = ? where id_cliente = ?");
+        stm.setString(1, usuario.getNomeCompleto());
+        stm.setString(2, usuario.getIdUsuario().toString());
         stm.executeUpdate();
     }
 
     public void deleteUsuario(String id_usuario) throws SQLException{
-        PreparedStatement stm = connection.prepareStatement("delete from clientes where id_usuario = ?");
+        PreparedStatement stm = connection.prepareStatement("delete from clientes where id_cliente = ?");
         stm.setString(1, id_usuario);
         int linha = stm.executeUpdate();
         if (linha == 0)

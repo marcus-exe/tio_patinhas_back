@@ -23,9 +23,9 @@ public class Usuario {
         pais = "BR";
     }
 
-    public Usuario(String id) {
-        idUsuario = UUID.randomUUID();
-
+    public Usuario(String id, String nomeCompletoInput) {
+        idUsuario = UUID.fromString(id);
+        nomeCompleto = nomeCompletoInput;
     }
 
     //getter and setters
@@ -108,11 +108,12 @@ public class Usuario {
 
     public String getResumoUsuario(){
         return "\nId do usuário: " + this.getIdUsuario() +
-                "\nNome Completo: " + this.getNomeCompleto() +
-                "\nEmail: " + this.getEmail() +
-                "\nSenha: " + this.getSenha() +
-                "\nCPF ou CNPJ: " + this.getCpfCnpj() +
-                "\nTelefone: " + this.getTelefone() +
-                "\nData de Criação: " + this.getDataCriacao() + ".";
+                "\nNome Completo: " + this.getNomeCompleto()
+//                "\nEmail: " + this.getEmail() +
+//                "\nSenha: " + this.getSenha() +
+//                "\nCPF ou CNPJ: " + this.getCpfCnpj() +
+//                "\nTelefone: " + this.getTelefone() +
+//                "\nData de Criação: " + this.getDataCriacao() + "."
+                ;
     }
 }

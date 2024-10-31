@@ -50,14 +50,13 @@ public class Main {
         Art.getWelcome();
 
         // Disclaimer
-        // Disclaimer
         System.out.println("- Disclaimer: \n" +
                 "  - Projeto adaptado a uma lógica de CLI, ou seja, nem todos os elementos estão conforme a documentação\n" +
                 "  - Não foi possível implementar os métodos delete, put : por questão de tempo, não de desafio técnico");
         String continuar = "S";
         do {
             // Interaction Loop 1
-            int classe = -1;
+            int classe = -10;
             do {
                 try {
                     System.out.println("\nEscolha uma das classes:\n" +
@@ -65,13 +64,18 @@ public class Main {
                             "2 - Endereço\n" +
                             "3 - Corretora\n" +
                             "4 - ContaInvestimento\n" +
-                            "5 - Transação\n");
+                            "5 - Transação\n" +
+                            "-1 - Sair\n"
+                    );
                     classe = scanner.nextInt();
                 } catch (Exception e) {
                     System.out.println("Digite um dos números indicados.");
                 }
-            } while (classe != 1 && classe != 2 && classe != 3 && classe != 4 && classe != 5);
+            } while (classe != 1 && classe != 2 && classe != 3 && classe != 4 && classe != 5 && classe != -1);
 
+            if (classe == -1) {
+                break;
+            }
             // Interaction Loop 2
             int option = -1;
             do {
@@ -133,6 +137,7 @@ public class Main {
                         try {
                             if (classe == 1) {
                                 userListar(scanner);
+
                             } else if (classe == 2) {
                                 addressListar(scanner);
                             } else if (classe == 3) {
@@ -202,7 +207,8 @@ public class Main {
 
         }while(Objects.equals(continuar, "S") || Objects.equals(continuar, "s"));
 
-        System.out.println("\nObrigado e até a próxima!!!");
+        //System.out.println("\nObrigado e até a próxima!!!");
+        Art.getGoodbye();
     }
 
     private static void transaction(Scanner scanner) {
@@ -306,7 +312,7 @@ public class Main {
             String id_usuario_pesquisar = scanner.next();
 
             Usuario usuario = usuarioDAO.getUsuario(id_usuario_pesquisar);
-            System.out.println(usuario.getEmail() + " " + usuario.getNomeCompleto() + ".");
+            System.out.println(usuario.getIdUsuario() + " " + usuario.getNomeCompleto() + ".");
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -392,7 +398,8 @@ public class Main {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             List<Usuario> usuarios = usuarioDAO.listar();
             for (Usuario usuario : usuarios) {
-                System.out.println(usuario.getIdUsuario() + " " + usuario.getNomeCompleto() + ".");
+                //System.out.println(usuario.getIdUsuario() + " " + usuario.getNomeCompleto() + ".");
+                System.out.println(usuario.getResumoUsuario());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -447,23 +454,24 @@ public class Main {
         }
     }
 
-    private static void userAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+    private static void userAtualizar(Scanner scanner) throws SQLException {
+        Scanner scanner2 = null;
         try {
+            scanner2 = new Scanner(System.in);
+
             UsuarioDAO usuarioDao = new UsuarioDAO();
 
             System.out.println("\n### Atualização de um usuário ###");
-            System.out.println("\nDigite id do usuário: ");
-            String id_usuario_pesquisar = scanner.nextLine();
+            System.out.println("Digite id do usuário: ");
+
+            String id_usuario_pesquisar = scanner2.nextLine();
 
             Usuario usuario = usuarioDao.getUsuario(id_usuario_pesquisar);
 
             System.out.println("Digite o novo nome do usuário: ");
-            String novo_nome = scanner.nextLine();
+            String novo_nome = scanner2.nextLine();
             usuario.setNomeCompleto(novo_nome);
 
-            System.out.println("Digite o novo email do usuário: ");
-            String novo_email = scanner.nextLine();
-            usuario.setEmail(novo_email);
 
             usuarioDao.updateUsuario(usuario);
             System.out.println("Usuário atualizado!");
@@ -471,6 +479,9 @@ public class Main {
             System.err.println(e.getMessage());
         } catch (EntidadeNaoEcontradaException e) {
             System.err.println("Usuário não encontrado");
+        } finally {
+            assert scanner2 != null;
+            scanner2.close();
         }
     }
 
@@ -583,17 +594,21 @@ public class Main {
     }
 
     private static void userRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        Scanner scanner2 = null;
         try {
+            scanner2 = new Scanner(System.in);
             UsuarioDAO usuarioDao = new UsuarioDAO();
 
             System.out.println("\n### Remoção de um usuário ###");
             System.out.println("\nDigite o id do usuário: ");
-            String id_usuario_pesquisar = scanner.nextLine();
+            String id_usuario_pesquisar = scanner2.nextLine();
 
             usuarioDao.deleteUsuario(id_usuario_pesquisar);
             System.out.println("Usuário Removido!");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        } finally {
+            scanner2.close();
         }
     }
 
