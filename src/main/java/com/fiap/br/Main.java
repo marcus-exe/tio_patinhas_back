@@ -1,6 +1,7 @@
 package com.fiap.br;
 
 import com.fiap.br.dao.*;
+import com.fiap.br.exception.EntidadeNaoEcontradaException;
 import com.fiap.br.models.account.Conta;
 import com.fiap.br.models.register.Corretora;
 import com.fiap.br.models.register.Endereco;
@@ -10,6 +11,8 @@ import com.fiap.br.utils.Art;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static com.fiap.br.utils.InputUtils.*;
@@ -51,143 +54,155 @@ public class Main {
         System.out.println("- Disclaimer: \n" +
                 "  - Projeto adaptado a uma lógica de CLI, ou seja, nem todos os elementos estão conforme a documentação\n" +
                 "  - Não foi possível implementar os métodos delete, put : por questão de tempo, não de desafio técnico");
-
-        // Interaction Loop
-        int option = -1;
+        String continuar = "S";
         do {
-            System.out.println("\nEscolha uma das opções:\n" +
-                    "1 - Central de  Usuários\n" +
-                    "2 - Central de Endereços\n" +
-                    "3 - Central de Corretoras\n" +
-                    "4 - Central de ContasInvestimento\n" +
-                    "5 - Central de Transações\n" +
-                    "-1 - Sair\n");
-            option = scanner.nextInt();
+            // Interaction Loop 1
+            int classe = -1;
+            do {
+                try {
+                    System.out.println("\nEscolha uma das classes:\n" +
+                            "1 - Usuário\n" +
+                            "2 - Endereço\n" +
+                            "3 - Corretora\n" +
+                            "4 - ContaInvestimento\n" +
+                            "5 - Transação\n");
+                    classe = scanner.nextInt();
+                } catch (Exception e) {
+                    System.out.println("Digite um dos números indicados.");
+                }
+            } while (classe != 1 && classe != 2 && classe != 3 && classe != 4 && classe != 5);
+
+            // Interaction Loop 2
+            int option = -1;
+            do {
+                try {
+                    System.out.println("\nEscolha uma das opções:\n" +
+                            "1 - Cadastrar um registro \n" +
+                            "2 - Exibir um registro \n" +
+                            "3 - Exibir todos os registros \n" +
+                            "4 - Atualizar um registro \n" +
+                            "5 - Deletar um registro \n");
+                    option = scanner.nextInt();
+                } catch (Exception e) {
+                    System.out.println("Digite um dos números indicados.");
+                }
+            } while (option != 1 && option != 2 && option != 3 && option != 4 && option != 5);
 
             try {
                 switch (option) {
                     case 1 -> {
-                        do {
-                            System.out.println("\nCentral de ações de Usuários:\n" +
-                                    "1 - Cadastrar Usuário\n" +
-                                    "2 - Modificar Usuário\n" +
-                                    "3 - Apagar Usuário\n" +
-                                    "4 - Mostrar todos os Usuários\n" +
-                                    "-1 - Sair\n");
-                            option = scanner.nextInt();
-                            switch (option) {
-                                case 1 -> {
-                                    userInput(scanner);
-                                }
-                                case -1 -> {
-                                    Art.getGoodbye();
-                                }
-                                default -> {
-                                    System.out.println("Valor Inválido");
-                                }
+
+                        try {
+                            if (classe == 1) {
+                                userInput(scanner);
+                            } else if (classe == 2) {
+                                addressInput(scanner);
+                            } else if (classe == 3) {
+                                brokerInput(scanner);
+                            } else if (classe == 4) {
+                                accountInput(scanner);
+                            } else if (classe == 5) {
+                                transaction(scanner);
+                            } else {
+                                System.out.println("A classe foi tratada de forma errada !!!");
                             }
-                        } while (option != -1);
+                        } catch (SQLException e) {
+                            System.err.println(e.getMessage());
+                        }
                     }
                     case 2 -> {
-                        do {
-                            System.out.println("\nCentral de ações de Endereços:\n" +
-                                    "1 - Cadastrar Endereço\n" +
-                                    "2 - Modificar Endereço\n" +
-                                    "3 - Apagar Endereço\n" +
-                                    "4 - Mostrar todos os Endereços\n" +
-                                    "-1 - Sair\n");
-                            option = scanner.nextInt();
-                            switch (option) {
-                                case 1 -> {
-                                    addressInput(scanner);
-                                }
-                                case -1 -> {
-                                    Art.getGoodbye();
-                                }
-                                default -> {
-                                    System.out.println("Valor Inválido");
-                                }
+                        try {
+                            if (classe == 1) {
+                                userExibir(scanner);
+                            } else if (classe == 2) {
+                                addressExibir(scanner);
+                            } else if (classe == 3) {
+                                brokerExibir(scanner);
+                            } else if (classe == 4) {
+                                accountExibir(scanner);
+                            } else if (classe == 5) {
+                                transactionExibir(scanner);
+                            } else {
+                                System.out.println("A classe foi tratada de forma errada !!!");
                             }
-                        } while (option != -1);
+                        } catch (SQLException e) {
+                            System.err.println(e.getMessage());
+                        }
                     }
                     case 3 -> {
-                        do {
-                            System.out.println("\nCentral de ações de Corretoras:\n" +
-                                    "1 - Cadastrar Corretora\n" +
-                                    "2 - Modificar Corretora\n" +
-                                    "3 - Apagar Corretora\n" +
-                                    "4 - Mostrar todos os Corretoras\n" +
-                                    "-1 - Sair\n");
-                            option = scanner.nextInt();
-                            switch (option) {
-                                case 1 -> {
-                                    brokerInput(scanner);
-                                }
-                                case -1 -> {
-                                    Art.getGoodbye();
-                                }
-                                default -> {
-                                    System.out.println("Valor Inválido");
-                                }
+                        try {
+                            if (classe == 1) {
+                                userListar(scanner);
+                            } else if (classe == 2) {
+                                addressListar(scanner);
+                            } else if (classe == 3) {
+                                brokerListar(scanner);
+                            } else if (classe == 4) {
+                                accountListar(scanner);
+                            } else if (classe == 5) {
+                                transactionListar(scanner);
+                            } else {
+                                System.out.println("A classe foi tratada de forma errada !!!");
                             }
-                        } while (option != -1);
+                        } catch (SQLException e) {
+                            System.err.println(e.getMessage());
+                        }
                     }
                     case 4 -> {
-                        do {
-                            System.out.println("\nCentral de ações de ContasInvestimento:\n" +
-                                    "1 - Cadastrar ContaInvestimento\n" +
-                                    "2 - Modificar ContaInvestimento\n" +
-                                    "3 - Apagar ContaInvestimento\n" +
-                                    "4 - Mostrar todos os ContasInvestimento\n" +
-                                    "-1 - Sair\n");
-                            option = scanner.nextInt();
-                            switch (option) {
-                                case 1 -> {
-                                    accountInput(scanner);
-                                }
-                                case -1 -> {
-                                    Art.getGoodbye();
-                                }
-                                default -> {
-                                    System.out.println("Valor Inválido");
-                                }
+                        try {
+                            if (classe == 1) {
+                                userAtualizar(scanner);
+                            } else if (classe == 2) {
+                                addressAtualizar(scanner);
+                            } else if (classe == 3) {
+                                brokerAtualizar(scanner);
+                            } else if (classe == 4) {
+                                accountAtualizar(scanner);
+                            } else if (classe == 5) {
+                                transactionAtualizar(scanner);
+                            } else {
+                                System.out.println("A classe foi tratada de forma errada !!!");
                             }
-                        } while (option != -1);
+                        } catch (SQLException e) {
+                            System.err.println(e.getMessage());
+                        }
+
                     }
                     case 5 -> {
-                        do {
-                            System.out.println("\nCentral de ações de Transações:\n" +
-                                    "1 - Cadastrar Transação\n" +
-                                    "2 - Modificar Transação\n" +
-                                    "3 - Apagar Transação\n" +
-                                    "4 - Mostrar todas as Transações\n" +
-                                    "-1 - Sair\n");
-                            option = scanner.nextInt();
-                            switch (option) {
-                                case 1 -> {
-                                    transaction(scanner);
-                                }
-                                case -1 -> {
-                                    Art.getGoodbye();
-                                }
-                                default -> {
-                                    System.out.println("Valor Inválido");
-                                }
+                        try {
+                            if (classe == 1) {
+                                userRemover(scanner);
+                            } else if (classe == 2) {
+                                addressRemover(scanner);
+                            } else if (classe == 3) {
+                                brokerRemover(scanner);
+                            } else if (classe == 4) {
+                                accountRemover(scanner);
+                            } else if (classe == 5) {
+                                transactionRemover(scanner);
+                            } else {
+                                System.out.println("A classe foi tratada de forma errada !!!");
                             }
-                        } while (option != -1);
+                        } catch (SQLException e) {
+                            System.err.println(e.getMessage());
+                        }
+
                     }
-                    case -1 -> {
-                        Art.getGoodbye();
-                    }
+
                     default -> {
                         System.out.println("Valor Inválido");
                     }
                 }
-            }
-            catch (SQLException e) {
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-        } while (option != -1);
+
+            System.out.println("\nVocê deseja continuar? S/N");
+            continuar = scanner.next();
+
+        }while(Objects.equals(continuar, "S") || Objects.equals(continuar, "s"));
+
+        System.out.println("\nObrigado e até a próxima!!!");
     }
 
     private static void transaction(Scanner scanner) {
@@ -282,4 +297,363 @@ public class Main {
         System.out.println(usuario.getResumoUsuario());
     }
 
+    private static void userExibir(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+            System.out.println("\n### Exibição de um registro de usuário ###");
+            System.out.println("\nDigite o id do usuário: ");
+            String id_usuario_pesquisar = scanner.next();
+
+            Usuario usuario = usuarioDAO.getUsuario(id_usuario_pesquisar);
+            System.out.println(usuario.getEmail() + " " + usuario.getNomeCompleto() + ".");
+
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Codigo não existe na tabela");
+        }
+    }
+
+    private static void addressExibir(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            EnderecoDAO enderecoDAO = new EnderecoDAO();
+
+            System.out.println("\n### Exibição de um registro de endereço ###");
+            System.out.println("\nDigite o id do endereço: ");
+            String id_endereco_pesquisar = scanner.next();
+
+            Endereco endereco = enderecoDAO.getEndereco(id_endereco_pesquisar);
+            System.out.println(endereco.getIdEndereco() + " " + endereco.getCep() + ".");
+
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Codigo não existe na tabela");
+        }
+    }
+
+    private static void brokerExibir(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            CorretoraDAO corretoraDAO = new CorretoraDAO();
+
+            System.out.println("\n### Exibição de um registro de corretora ###");
+            System.out.println("\nDigite o id da corretora: ");
+            String id_corretora_pesquisar = scanner.next();
+
+            Corretora corretora = corretoraDAO.getCorretora(id_corretora_pesquisar);
+            System.out.println(corretora.getIdCorretora() + " " + corretora.getNomeCorretora() + ".");
+
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Codigo não existe na tabela");
+        }
+    }
+
+    private static void accountExibir(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            AccountDAO accountDAO = new AccountDAO();
+
+            System.out.println("\n### Exibição de um registro de conta de investimento ###");
+            System.out.println("\nDigite o número da conta de investimento: ");
+            String nr_account_pesquisar = scanner.next();
+
+            Conta conta = accountDAO.getAccount(nr_account_pesquisar);
+            System.out.println(conta.getNrConta() + " " + conta.getTipoConta() + ".");
+
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Codigo não existe na tabela");
+        }
+    }
+
+    private static void transactionExibir(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            TransacaoDAO transacaoDAO = new TransacaoDAO();
+
+            System.out.println("\n### Exibição de um registro de transação ###");
+            System.out.println("\nDigite id da transação: ");
+            String id_transacao_pesquisar = scanner.next();
+
+            Transacao transacao = transacaoDAO.getTransacao(id_transacao_pesquisar);
+            System.out.println(transacao.getIdTransacao() + " " + transacao.getContaOrigem() + ".");
+
+        }catch(SQLException e){
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Codigo não existe na tabela");
+        }
+    }
+
+    private static void userListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            List<Usuario> usuarios = usuarioDAO.listar();
+            for (Usuario usuario : usuarios) {
+                System.out.println(usuario.getIdUsuario() + " " + usuario.getNomeCompleto() + ".");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void addressListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            EnderecoDAO enderecoDAO = new EnderecoDAO();
+            List<Endereco> enderecos = enderecoDAO.listar();
+            for (Endereco endereco : enderecos) {
+                System.out.println(endereco.getIdEndereco() + " " + endereco.getCep() + ".");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void brokerListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            CorretoraDAO corretoraDAO = new CorretoraDAO();
+            List<Corretora> corretoras = corretoraDAO.listar();
+            for (Corretora corretora : corretoras) {
+                System.out.println(corretora.getIdCorretora() + " " + corretora.getNomeCorretora() + ".");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void accountListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            AccountDAO accountDAO = new AccountDAO();
+            List<Conta> contas = accountDAO.listar();
+            for (Conta conta : contas) {
+                System.out.println(conta.getNrConta() + " " + conta.getTipoConta() + ".");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void transactionListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            TransacaoDAO transacaoDAO = new TransacaoDAO();
+            List<Transacao> transacoes = transacaoDAO.listar();
+            for (Transacao transacao : transacoes) {
+                System.out.println(transacao.getIdTransacao() + " " + transacao.getContaOrigem() + ".");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void userAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+
+            System.out.println("\n### Atualização de um usuário ###");
+            System.out.println("\nDigite id do usuário: ");
+            String id_usuario_pesquisar = scanner.nextLine();
+
+            Usuario usuario = usuarioDao.getUsuario(id_usuario_pesquisar);
+
+            System.out.println("Digite o novo nome do usuário: ");
+            String novo_nome = scanner.nextLine();
+            usuario.setNomeCompleto(novo_nome);
+
+            System.out.println("Digite o novo email do usuário: ");
+            String novo_email = scanner.nextLine();
+            usuario.setEmail(novo_email);
+
+            usuarioDao.updateUsuario(usuario);
+            System.out.println("Usuário atualizado!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Usuário não encontrado");
+        }
+    }
+
+    private static void addressAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            EnderecoDAO enderecoDao = new EnderecoDAO();
+
+            System.out.println("\n### Atualização de um endereço ###");
+            System.out.println("\nDigite id do endereço: ");
+            String id_endereco_pesquisar = scanner.nextLine();
+
+            Endereco endereco = enderecoDao.getEndereco(id_endereco_pesquisar);
+
+            System.out.println("Digite o novo cep do endereço: ");
+            String novo_cep = scanner.nextLine();
+            endereco.setCep(novo_cep);
+
+            System.out.println("Digite o novo bairro do endereco: ");
+            String novo_bairro = scanner.nextLine();
+            endereco.setBairro(novo_bairro);
+
+            enderecoDao.updateEndereco(endereco);
+            System.out.println("Endereço atualizado!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Endereço não encontrado");
+        }
+    }
+
+    private static void brokerAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            CorretoraDAO corretoraDao = new CorretoraDAO();
+
+            System.out.println("\n### Atualização de uma corretora ###");
+            System.out.println("\nDigite id da corretora: ");
+            String id_corretora_pesquisar = scanner.nextLine();
+
+            Corretora corretora = corretoraDao.getCorretora(id_corretora_pesquisar);
+
+            System.out.println("Digite o novo nome da corretora: ");
+            String novo_nome_corretora = scanner.nextLine();
+            corretora.setNomeCorretora(novo_nome_corretora);
+
+            System.out.println("Digite o novo email da corretora: ");
+            String novo_email_corretora = scanner.nextLine();
+            corretora.setEmail(novo_email_corretora);
+
+            corretoraDao.updateCorretora(corretora);
+            System.out.println("Corretora atualizada!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Corretora não encontrada");
+        }
+    }
+
+    private static void accountAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            AccountDAO accountDao = new AccountDAO();
+
+            System.out.println("\n### Atualização de uma conta de investimento ###");
+            System.out.println("\nDigite número da conta: ");
+            String nr_conta_pesquisar = scanner.nextLine();
+
+            Conta conta = accountDao.getAccount(nr_conta_pesquisar);
+
+            System.out.println("Digite a nova senha da conta: ");
+            String novo_senha_conta = scanner.nextLine();
+            conta.setSenhaConta(novo_senha_conta);
+
+            System.out.println("Digite o novo saldo da conta: ");
+            double novo_saldo_conta = scanner.nextDouble();
+            conta.setSaldo(novo_saldo_conta);
+
+            accountDao.updateAccount(conta);
+            System.out.println("Conta atualizada!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Conta não encontrada");
+        }
+    }
+
+    private static void transactionAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            TransacaoDAO transacaoDao = new TransacaoDAO();
+
+            System.out.println("\n### Atualização de uma transação ###");
+            System.out.println("\nDigite o id da transação: ");
+            String id_transacao_pesquisar = scanner.nextLine();
+
+            Transacao transacao = transacaoDao.getTransacao(id_transacao_pesquisar);
+
+            System.out.println("Digite o novo endereço de origem da transação: ");
+            String novo_origem = scanner.nextLine();
+            transacao.setContaOrigem(novo_origem);
+
+            System.out.println("Digite o novo endereço destino da transação: ");
+            String novo_destino = scanner.nextLine();
+            transacao.setContaDestino(novo_destino);
+
+            transacaoDao.updateTransacao(transacao);
+            System.out.println("Transação atualizada!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } catch (EntidadeNaoEcontradaException e) {
+            System.err.println("Transação não encontrada");
+        }
+    }
+
+    private static void userRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+
+            System.out.println("\n### Remoção de um usuário ###");
+            System.out.println("\nDigite o id do usuário: ");
+            String id_usuario_pesquisar = scanner.nextLine();
+
+            usuarioDao.deleteUsuario(id_usuario_pesquisar);
+            System.out.println("Usuário Removido!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void addressRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            EnderecoDAO enderecoDao = new EnderecoDAO();
+
+            System.out.println("\n### Remoção de um endereço ###");
+            System.out.println("\nDigite o id do endereço: ");
+            String id_endereco_pesquisar = scanner.nextLine();
+
+            enderecoDao.deleteEndereco(id_endereco_pesquisar);
+            System.out.println("Endereço Removido!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void brokerRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            CorretoraDAO corretoraDao = new CorretoraDAO();
+
+            System.out.println("\n### Remoção de uma corretora ###");
+            System.out.println("\nDigite o id da corretora: ");
+            String id_corretora_pesquisar = scanner.nextLine();
+
+            corretoraDao.deleteCorretora(id_corretora_pesquisar);
+            System.out.println("Corretora Removida!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void accountRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            AccountDAO accountDao = new AccountDAO();
+
+            System.out.println("\n### Remoção de uma conta de investimento ###");
+            System.out.println("\nDigite o número da conta: ");
+            String nr_conta_pesquisar = scanner.nextLine();
+
+            accountDao.deleteAccount(nr_conta_pesquisar);
+            System.out.println("Conta Removida!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private static void transactionRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        try {
+            TransacaoDAO transacaoDao = new TransacaoDAO();
+
+            System.out.println("\n### Remoção de uma transação ###");
+            System.out.println("\nDigite o id da transação: ");
+            String id_transacao_pesquisar = scanner.nextLine();
+
+            transacaoDao.deleteTransacao(id_transacao_pesquisar);
+            System.out.println("Transação Removida!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

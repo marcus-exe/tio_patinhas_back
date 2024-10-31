@@ -21,11 +21,11 @@ public class InputUtils {
             try {
                 System.out.println("Qual a taxa da transação?");
                 taxaInput = scanner.nextDouble();
-                scanner.nextLine();
+                scanner.next();
                 transacao.setTaxaTransacao(taxaInput);
             } catch (Exception e) {
                 System.out.println("Digite um valor válido :)");
-                scanner.nextLine();
+                scanner.next();
             }
         } while (taxaInput < 0);
     }
@@ -34,7 +34,7 @@ public class InputUtils {
         String hashTransacaoInput;
         do {
             System.out.println("Qual hash da transação?");
-            hashTransacaoInput = scanner.nextLine();
+            hashTransacaoInput = scanner.next();
             transacao.setHashTransacao(hashTransacaoInput);
         } while (Objects.equals(hashTransacaoInput, ""));
     }
@@ -43,16 +43,16 @@ public class InputUtils {
         String enderecoDestinoInput;
         do {
             System.out.println("Qual o endereco de destino da transação?");
-            enderecoDestinoInput = scanner.nextLine();
+            enderecoDestinoInput = scanner.next();
             transacao.setContaDestino(enderecoDestinoInput);
-        } while (enderecoDestinoInput.isEmpty() );
+        } while (enderecoDestinoInput == "");
     }
 
     public static void transactionOriginAddressInput(Scanner scanner, Transacao transacao) {
         String enderecoOrigemInput;
         do {
             System.out.println("Qual o endereco de origem da transação?");
-            enderecoOrigemInput = scanner.nextLine();
+            enderecoOrigemInput = scanner.next();
             transacao.setContaOrigem(enderecoOrigemInput);
         } while (Objects.equals(enderecoOrigemInput, ""));
     }
@@ -61,7 +61,7 @@ public class InputUtils {
         String descricaoTransacaoInput;
         do {
             System.out.println("Qual a descrição da transação?");
-            descricaoTransacaoInput = scanner.nextLine();
+            descricaoTransacaoInput = scanner.next();
             transacao.setDescricao(descricaoTransacaoInput);
         } while (Objects.equals(descricaoTransacaoInput, ""));
     }
@@ -76,7 +76,7 @@ public class InputUtils {
                 transacao.setMontante(montanteInput);
             } catch (Exception e) {
                 System.out.println("Digite um valor válido :)");
-                scanner.nextLine();
+                scanner.next();
             }
         } while (montanteInput == null);
     }
@@ -168,7 +168,7 @@ public class InputUtils {
         String senhaContaInput;
         do {
             System.out.println("Digite a senha da sua conta: ");
-            senhaContaInput = scanner.nextLine();
+            senhaContaInput = scanner.next();
             contaInvestimento.setSenhaConta(senhaContaInput);
         } while (Objects.equals(senhaContaInput, ""));
     }
@@ -177,7 +177,7 @@ public class InputUtils {
         String nrContaInput;
         do {
             System.out.println("Digite o número da sua conta: ");
-            nrContaInput = scanner.nextLine();
+            nrContaInput = scanner.next();
             contaInvestimento.setNrConta(nrContaInput);
         } while (Objects.equals(nrContaInput, ""));
     }
@@ -186,7 +186,7 @@ public class InputUtils {
         String enderecoCarteiraCorretoraInput;
         do {
             System.out.println("Qual o endereço de carteira da sua corretora?");
-            enderecoCarteiraCorretoraInput = scanner.nextLine();
+            enderecoCarteiraCorretoraInput = scanner.next();
             corretora.setEnderecoCarteiraCorretora(enderecoCarteiraCorretoraInput);
         } while (Objects.equals(enderecoCarteiraCorretoraInput, ""));
     }
@@ -217,7 +217,7 @@ public class InputUtils {
         String emailCorretoraInput;
         do {
             System.out.println("Qual o email da sua corretora?");
-            emailCorretoraInput = scanner.nextLine();
+            emailCorretoraInput = scanner.next();
             corretora.setEmail(emailCorretoraInput);
         } while (Objects.equals(emailCorretoraInput, ""));
     }
@@ -226,7 +226,7 @@ public class InputUtils {
         String telefoneCorretoraInput;
         do {
             System.out.println("Qual o telefone da sua corretora?");
-            telefoneCorretoraInput = scanner.nextLine();
+            telefoneCorretoraInput = scanner.next();
             corretora.setTelefone(telefoneCorretoraInput);
         } while (Objects.equals(telefoneCorretoraInput, ""));
     }
@@ -235,7 +235,7 @@ public class InputUtils {
         String cnpjCorretoraInput;
         do {
             System.out.println("Qual o CNPJ da sua corretora?");
-            cnpjCorretoraInput = scanner.nextLine();
+            cnpjCorretoraInput = scanner.next();
             corretora.setCnpj(cnpjCorretoraInput);
         } while (Objects.equals(cnpjCorretoraInput, ""));
     }
@@ -244,7 +244,7 @@ public class InputUtils {
         String nomeCorretoraInput;
         do {
             System.out.println("Qual o nome da sua corretora?");
-            nomeCorretoraInput = scanner.nextLine();
+            nomeCorretoraInput = scanner.next();
             corretora.setNomeCorretora(nomeCorretoraInput);
         } while (Objects.equals(nomeCorretoraInput, ""));
     }
@@ -253,7 +253,7 @@ public class InputUtils {
         String paisInput;
         do {
             System.out.println("Qual o país que você reside?");
-            paisInput = scanner.nextLine();
+            paisInput = scanner.next();
             endereco.setPais(paisInput);
         } while (Objects.equals(paisInput, ""));
     }
@@ -262,7 +262,7 @@ public class InputUtils {
         String cepInput;
         do {
             System.out.println("Qual o CEP do seu endereço?");
-            cepInput = scanner.nextLine();
+            cepInput = scanner.next();
             endereco.setCep(cepInput);
         } while (Objects.equals(cepInput, ""));
     }
@@ -271,7 +271,7 @@ public class InputUtils {
         String cdEstadoInput;
         do {
             System.out.println("Qual o cd do estado do seu endereço?");
-            cdEstadoInput = scanner.nextLine();
+            cdEstadoInput = scanner.next();
             endereco.setCdEstado(cdEstadoInput);
         } while (Objects.equals(cdEstadoInput, ""));
     }
@@ -280,7 +280,7 @@ public class InputUtils {
         String cidadeInput;
         do {
             System.out.println("Qual a cidade do seu endereço?");
-            cidadeInput = scanner.nextLine();
+            cidadeInput = scanner.next();
             endereco.setCidade(cidadeInput);
         } while (Objects.equals(cidadeInput, ""));
     }
@@ -289,7 +289,7 @@ public class InputUtils {
         String bairroInput;
         do {
             System.out.println("Qual o bairro do seu endereço?");
-            bairroInput = scanner.nextLine();
+            bairroInput = scanner.next();
             endereco.setBairro(bairroInput);
         } while (Objects.equals(bairroInput, ""));
     }
@@ -298,7 +298,7 @@ public class InputUtils {
         String complementoInput;
         do {
             System.out.println("Qual o complemento do seu endereço?");
-            complementoInput = scanner.nextLine();
+            complementoInput = scanner.next();
             endereco.setComplemento(complementoInput);
         } while (Objects.equals(complementoInput, ""));
     }
@@ -321,7 +321,7 @@ public class InputUtils {
         String ruaInput;
         do {
             System.out.println("Em qual rua você mora?");
-            ruaInput = scanner.nextLine();
+            ruaInput = scanner.next();
             endereco.setRua(ruaInput);
         } while (Objects.equals(ruaInput, ""));
     }
@@ -330,7 +330,7 @@ public class InputUtils {
         String telefoneUsuarioInput;
         do {
             System.out.println("Qual o seu número de telefone com DD? (somente números)");
-            telefoneUsuarioInput = scanner.nextLine();
+            telefoneUsuarioInput = scanner.next();
             try {
                 usuario.setTelefone(Formatters.formatPhoneNumber(telefoneUsuarioInput));
             } catch (IllegalArgumentException ignored) {
@@ -344,7 +344,7 @@ public class InputUtils {
         String cpfUsuarioInput;
         do {
             System.out.println("Qual o seu CPF");
-            cpfUsuarioInput = scanner.nextLine();
+            cpfUsuarioInput = scanner.next();
             try {
                 usuario.setCpf(Formatters.formatCpf(cpfUsuarioInput));
             } catch (IllegalArgumentException ignored) {
@@ -358,11 +358,11 @@ public class InputUtils {
         String senhaUsuarioInput;
         do {
             System.out.println("Qual a sua senha?");
-            senhaUsuarioInput = scanner.nextLine();
+            senhaUsuarioInput = scanner.next();
             if (Formatters.validatePassword(senhaUsuarioInput)) {
                 usuario.setSenha(senhaUsuarioInput);
             } else {
-                System.out.println("Digite uma senha maior que 10 dígitos");
+                System.out.println("Digite uma tenha maior que 10 dígitos");
                 senhaUsuarioInput = "";
             }
         } while (Objects.equals(senhaUsuarioInput, ""));
@@ -372,7 +372,7 @@ public class InputUtils {
         String emailUsuarioInput;
         do {
             System.out.println("Qual o seu email? (terminado em @gmail.com) ");
-            emailUsuarioInput = scanner.nextLine();
+            emailUsuarioInput = scanner.next();
             if (Formatters.validateEmail(emailUsuarioInput)) {
                 usuario.setEmail(emailUsuarioInput);
             } else {
@@ -385,7 +385,7 @@ public class InputUtils {
         String nomeCompletoUsuarioInput;
         do {
             System.out.println("Qual o seu nome completo?");
-            nomeCompletoUsuarioInput = scanner.nextLine();
+            nomeCompletoUsuarioInput = scanner.next();
             usuario.setNomeCompleto(nomeCompletoUsuarioInput);
         } while (Objects.equals(nomeCompletoUsuarioInput, ""));
     }

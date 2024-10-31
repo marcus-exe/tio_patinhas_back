@@ -28,6 +28,10 @@ public class Conta {
         idCorretora = UUID.randomUUID();  //sem tempo de implementar com lógica completinha
     }
 
+    public Conta (String nr_conta){
+        this.nrConta = nrConta;
+    }
+
     public Conta(String nrConta, String senhaConta, TipoConta tipoConta) {
         this.nrConta = nrConta;
         saldo = 0;

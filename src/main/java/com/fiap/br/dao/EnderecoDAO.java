@@ -1,11 +1,16 @@
 package com.fiap.br.dao;
 
+import com.fiap.br.exception.EntidadeNaoEcontradaException;
 import com.fiap.br.factory.ConnectionFactory;
 import com.fiap.br.models.register.Endereco;
+import com.fiap.br.models.register.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 public class EnderecoDAO {
     private Connection connection;
@@ -26,12 +31,30 @@ public class EnderecoDAO {
         stm.setString(9, endereco.getPais());
         stm.executeUpdate();
     }
-    public void listAllEndereco() throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("select * from endereco");
+
+    public List<Endereco> listar() throws SQLException {
+        PreparedStatement stm = connection.prepareStatement("SELECT * FROM endereco");
+        ResultSet result = stm.executeQuery();
+        List<Endereco> lista = new ArrayList<>();
+        while (result.next()){
+
+            lista.add(parseEndereco(result));
+        }
+        return lista;
     }
-    public void getEndereco(String id) throws SQLException {
+
+    public Endereco getEndereco(String id) throws SQLException, EntidadeNaoEcontradaException {
         PreparedStatement stm = connection.prepareStatement("select * from endereco where id = ?");
         stm.setString(1, id);
+        ResultSet result = stm.executeQuery();
+        if (!result.next())
+            throw new EntidadeNaoEcontradaException("Endereco não encontrado");
+        return parseEndereco(result);
+    }
+
+    private Endereco parseEndereco(ResultSet result) throws SQLException {
+        String id = result.getString("id_endereco");
+        return new Endereco(id);
     }
 
     public void updateEndereco(Endereco endereco) throws SQLException {

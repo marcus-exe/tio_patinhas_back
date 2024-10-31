@@ -23,6 +23,11 @@ public class Usuario {
         pais = "BR";
     }
 
+    public Usuario(String id) {
+        idUsuario = UUID.randomUUID();
+
+    }
+
     //getter and setters
 
     public UUID getIdUsuario() {

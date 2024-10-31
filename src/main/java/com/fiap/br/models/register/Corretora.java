@@ -19,6 +19,10 @@ public class Corretora {
         idCorretora = UUID.randomUUID();
     }
 
+    public Corretora(String id) {
+        idCorretora = UUID.randomUUID();
+    }
+
     //getter and setters
 
     public UUID getIdCorretora() {

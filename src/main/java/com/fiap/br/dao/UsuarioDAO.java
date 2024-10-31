@@ -1,11 +1,15 @@
 package com.fiap.br.dao;
 
+import com.fiap.br.exception.EntidadeNaoEcontradaException;
 import com.fiap.br.factory.ConnectionFactory;
 import com.fiap.br.models.register.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDAO {
     private Connection connection;
@@ -27,12 +31,29 @@ public class UsuarioDAO {
         stm.setString(10, usuario.getPais());
         stm.executeUpdate();
     }
-    public void listAllUsuario() throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("select * from clientes");
+
+    public List<Usuario> listar() throws SQLException {
+        PreparedStatement stm = connection.prepareStatement("SELECT * FROM clientes");
+        ResultSet result = stm.executeQuery();
+        List<Usuario> lista = new ArrayList<>();
+        while (result.next()){
+
+            lista.add(parseUsuario(result));
+        }
+        return lista;
     }
-    public void getUsuario(String id) throws SQLException {
+    public Usuario getUsuario(String id) throws SQLException, EntidadeNaoEcontradaException {
         PreparedStatement stm = connection.prepareStatement("select * from clientes where id = ?");
         stm.setString(1, id);
+        ResultSet result = stm.executeQuery();
+        if (!result.next())
+            throw new EntidadeNaoEcontradaException("Produto não encontrado");
+        return parseUsuario(result);
+    }
+
+    private Usuario parseUsuario(ResultSet result) throws SQLException {
+        String id = result.getString("id_cliente");
+        return new Usuario(id);
     }
 
     public void updateUsuario(Usuario usuario) throws SQLException {

@@ -1,11 +1,17 @@
 package com.fiap.br.dao;
 
+import com.fiap.br.exception.EntidadeNaoEcontradaException;
 import com.fiap.br.factory.ConnectionFactory;
 import com.fiap.br.models.register.Corretora;
+import com.fiap.br.models.register.Endereco;
+import com.fiap.br.models.register.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CorretoraDAO {
     private Connection connection;
@@ -24,12 +30,30 @@ public class CorretoraDAO {
         stm.setString(7, corretora.getEnderecoCarteiraCorretora());
         stm.executeUpdate();
     }
-    public void listAllCorretora() throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("select * from corretora");
+
+    public List<Corretora> listar() throws SQLException {
+        PreparedStatement stm = connection.prepareStatement("SELECT * FROM corretora");
+        ResultSet result = stm.executeQuery();
+        List<Corretora> lista = new ArrayList<>();
+        while (result.next()){
+
+            lista.add(parseCorretora(result));
+        }
+        return lista;
     }
-    public void getCorretora(String id) throws SQLException {
+
+    public Corretora getCorretora(String id) throws SQLException, EntidadeNaoEcontradaException {
         PreparedStatement stm = connection.prepareStatement("select * from corretora where id = ?");
         stm.setString(1, id);
+        ResultSet result = stm.executeQuery();
+        if (!result.next())
+            throw new EntidadeNaoEcontradaException("Corretora não encontrada");
+        return parseCorretora(result);
+    }
+
+    private Corretora parseCorretora(ResultSet result) throws SQLException {
+        String id = result.getString("id_corretora");
+        return new Corretora(id);
     }
 
     public void updateCorretora(Corretora corretora) throws SQLException {

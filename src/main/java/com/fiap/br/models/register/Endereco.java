@@ -1,5 +1,6 @@
 package com.fiap.br.models.register;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Endereco {
@@ -13,9 +14,14 @@ public class Endereco {
     private String cep;
     private String pais;
 
+    public Endereco(String id) {
+        idEndereco = UUID.randomUUID();
+    }
+
     public Endereco() {
         idEndereco = UUID.randomUUID();
     }
+
 
     //getter and setters
 

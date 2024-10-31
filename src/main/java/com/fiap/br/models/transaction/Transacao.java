@@ -19,6 +19,10 @@ public class Transacao {
     public UUID idCliente;
     public UUID idCorretora;
 
+    public Transacao(String id) {
+        idTransacao = UUID.randomUUID();
+    }
+
     public UUID getIdTransacao() {
         return idTransacao;
     }
@@ -91,6 +95,7 @@ public class Transacao {
         this.nrConta = nrConta;
     }
     public Transacao() {
+        idTransacao = UUID.randomUUID();
         idCorretora = UUID.randomUUID();
         idCliente = UUID.randomUUID();
     }
