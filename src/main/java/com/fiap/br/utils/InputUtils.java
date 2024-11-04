@@ -249,66 +249,13 @@ public class InputUtils {
         } while (Objects.equals(nomeCorretoraInput, ""));
     }
 
-    public static void addressCountryInput(Scanner scanner, Endereco endereco) {
-        String paisInput;
-        do {
-            System.out.println("Qual o país que você reside?");
-            paisInput = scanner.next();
-            endereco.setPais(paisInput);
-        } while (Objects.equals(paisInput, ""));
-    }
 
-    public static void addressZipCodeInput(Scanner scanner, Endereco endereco) {
-        String cepInput;
-        do {
-            System.out.println("Qual o CEP do seu endereço?");
-            cepInput = scanner.next();
-            endereco.setCep(cepInput);
-        } while (Objects.equals(cepInput, ""));
-    }
-
-    public static void addressStateCodeInput(Scanner scanner, Endereco endereco) {
-        String cdEstadoInput;
-        do {
-            System.out.println("Qual o cd do estado do seu endereço?");
-            cdEstadoInput = scanner.next();
-            endereco.setCdEstado(cdEstadoInput);
-        } while (Objects.equals(cdEstadoInput, ""));
-    }
-
-    public static void addressCityInput(Scanner scanner, Endereco endereco) {
-        String cidadeInput;
-        do {
-            System.out.println("Qual a cidade do seu endereço?");
-            cidadeInput = scanner.next();
-            endereco.setCidade(cidadeInput);
-        } while (Objects.equals(cidadeInput, ""));
-    }
-
-    public static void addressNeighborhoodInput(Scanner scanner, Endereco endereco) {
-        String bairroInput;
-        do {
-            System.out.println("Qual o bairro do seu endereço?");
-            bairroInput = scanner.next();
-            endereco.setBairro(bairroInput);
-        } while (Objects.equals(bairroInput, ""));
-    }
-
-    public static void addressExtraInfoInput(Scanner scanner, Endereco endereco) {
-        String complementoInput;
-        do {
-            System.out.println("Qual o complemento do seu endereço?");
-            complementoInput = scanner.next();
-            endereco.setComplemento(complementoInput);
-        } while (Objects.equals(complementoInput, ""));
-    }
 
     public static void addressNumberInput(int numeroInput, Scanner scanner, Endereco endereco) {
         do {
             try {
                 System.out.println("Qual o número do seu endereço?");
                 numeroInput = scanner.nextInt();
-                scanner.nextLine();
                 endereco.setNumero(numeroInput);
             } catch (Exception e) {
                 System.out.println("Digite um valor válido :)");
@@ -321,7 +268,7 @@ public class InputUtils {
         String ruaInput;
         do {
             System.out.println("Em qual rua você mora?");
-            ruaInput = scanner.next();
+            ruaInput = scanner.nextLine();
             endereco.setRua(ruaInput);
         } while (Objects.equals(ruaInput, ""));
     }

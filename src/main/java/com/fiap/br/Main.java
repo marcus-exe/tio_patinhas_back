@@ -24,7 +24,7 @@ public class Main {
         //Init.SQL
         try {
             CheckTablesExistence checkTablesExistence = new CheckTablesExistence();
-            for (String tableName: checkTablesExistence.tablesToCheck) {
+            for (String tableName : checkTablesExistence.tablesToCheck) {
                 if (!checkTablesExistence.checkTableExists(tableName)) {
                     try {
                         InitSQL initSQL = new InitSQL();
@@ -158,7 +158,7 @@ public class Main {
                             if (classe == 1) {
                                 userAtualizar(scanner);
                             } else if (classe == 2) {
-                                addressAtualizar(scanner);
+                                addressAtualizar();
                             } else if (classe == 3) {
                                 brokerAtualizar(scanner);
                             } else if (classe == 4) {
@@ -202,12 +202,10 @@ public class Main {
                 System.err.println(e.getMessage());
             }
 
-            System.out.println("\nVocê deseja continuar? S/N");
-            continuar = scanner.next();
+        System.out.println("\nVocê deseja continuar? S/N");
+        continuar = scanner.next();
+        } while(Objects.equals(continuar, "S") || Objects.equals(continuar, "s"));
 
-        }while(Objects.equals(continuar, "S") || Objects.equals(continuar, "s"));
-
-        //System.out.println("\nObrigado e até a próxima!!!");
         Art.getGoodbye();
     }
 
@@ -273,12 +271,6 @@ public class Main {
         int numberInput = -1;
         addressStreetInput(scanner, endereco);
         addressNumberInput(numberInput, scanner, endereco);
-        addressExtraInfoInput(scanner, endereco);
-        addressNeighborhoodInput(scanner, endereco);
-        addressCityInput(scanner, endereco);
-        addressStateCodeInput(scanner, endereco);
-        addressZipCodeInput(scanner, endereco);
-        addressCountryInput(scanner, endereco);
 
         enderecoDAO.registerEndereco(endereco);
 
@@ -330,7 +322,7 @@ public class Main {
             String id_endereco_pesquisar = scanner.next();
 
             Endereco endereco = enderecoDAO.getEndereco(id_endereco_pesquisar);
-            System.out.println(endereco.getIdEndereco() + " " + endereco.getCep() + ".");
+            System.out.println(endereco.getIdEndereco() + " " + endereco.getResumoEndereco() + ".");
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -411,7 +403,7 @@ public class Main {
             EnderecoDAO enderecoDAO = new EnderecoDAO();
             List<Endereco> enderecos = enderecoDAO.listar();
             for (Endereco endereco : enderecos) {
-                System.out.println(endereco.getIdEndereco() + " " + endereco.getCep() + ".");
+                System.out.println(endereco.getResumoEndereco());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -464,6 +456,7 @@ public class Main {
             System.out.println("\n### Atualização de um usuário ###");
             System.out.println("Digite id do usuário: ");
 
+
             String id_usuario_pesquisar = scanner2.nextLine();
 
             Usuario usuario = usuarioDao.getUsuario(id_usuario_pesquisar);
@@ -485,30 +478,37 @@ public class Main {
         }
     }
 
-    private static void addressAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+    private static void addressAtualizar() throws SQLException{
+        Scanner scanner2 = null;
         try {
+            scanner2 = new Scanner(System.in);
+
             EnderecoDAO enderecoDao = new EnderecoDAO();
 
             System.out.println("\n### Atualização de um endereço ###");
             System.out.println("\nDigite id do endereço: ");
-            String id_endereco_pesquisar = scanner.nextLine();
+            String id_endereco_pesquisar = scanner2.nextLine();
 
             Endereco endereco = enderecoDao.getEndereco(id_endereco_pesquisar);
 
-            System.out.println("Digite o novo cep do endereço: ");
-            String novo_cep = scanner.nextLine();
-            endereco.setCep(novo_cep);
+            System.out.println("Digite o nova rua do endereco: ");
+            String nova_rua = scanner2.nextLine();
+            endereco.setRua(nova_rua);
 
-            System.out.println("Digite o novo bairro do endereco: ");
-            String novo_bairro = scanner.nextLine();
-            endereco.setBairro(novo_bairro);
+            System.out.println("Digite o novo numero: ");
+            String novo_numero = scanner2.nextLine();
+            endereco.setNumero(Integer.parseInt(novo_numero));
 
             enderecoDao.updateEndereco(endereco);
             System.out.println("Endereço atualizado!");
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } catch (EntidadeNaoEcontradaException e) {
             System.err.println("Endereço não encontrado");
+        } finally {
+            assert scanner2 != null;
+            scanner2.close();
         }
     }
 
@@ -608,6 +608,7 @@ public class Main {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
+            assert scanner2 != null;
             scanner2.close();
         }
     }
