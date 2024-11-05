@@ -2,7 +2,13 @@
 CREATE TABLE ENDERECO (
     id_endereco         VARCHAR2(50) NOT NULL PRIMARY KEY,
     rua                 VARCHAR2(50) NOT NULL,
-    numero              NUMBER(5) NOT NULL
+    numero              NUMBER(5) NOT NULL,
+    complemento         VARCHAR2(50) NULL,
+    bairro              VARCHAR2(50) NOT NULL,
+    cidade              VARCHAR2(50) NOT NULL,
+    cd_estado           VARCHAR2(50) NOT NULL,
+    cep                 VARCHAR2(50) NOT NULL,
+    pais                VARCHAR2(50) NOT NULL
 );
 
 -- Create CLIENTES table
@@ -16,7 +22,7 @@ CREATE TABLE CLIENTES (
     telefone            VARCHAR2(50) NOT NULL,
     data_criacao       DATE NOT NULL,
     cep                 VARCHAR2(50) NOT NULL,
-    pais                VARCHAR2(2) NOT NULL
+    pais                VARCHAR2(50) NOT NULL
 );
 
 -- Create CORRETORA table
