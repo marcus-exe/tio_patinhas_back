@@ -54,7 +54,7 @@ CREATE TABLE CONTAS_CRIPTO (
 -- Create TRANSACAO_CRIPTO table
 CREATE TABLE TRANSACAO_CRIPTO (
     id_transacao       VARCHAR2(50) NOT NULL PRIMARY KEY,
-    data_hora          TIMESTAMP NOT NULL,
+    -- data_hora          TIMESTAMP NOT NULL,
     tipo_transacao     VARCHAR2(50) NOT NULL,
     valor              NUMBER(10,2) NOT NULL,
     descricao          VARCHAR2(255) NOT NULL,
