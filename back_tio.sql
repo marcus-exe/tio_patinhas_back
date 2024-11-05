@@ -51,41 +51,6 @@ CREATE TABLE CONTAS_CRIPTO (
     -- FOREIGN KEY (id_corretora) REFERENCES CORRETORA (id_corretora) ON DELETE CASCADE
 );
 
--- Create TRANSACAO_CRIPTO table
-CREATE TABLE TRANSACAO_CRIPTO (
-    id_transacao       VARCHAR2(50) NOT NULL PRIMARY KEY,
-    -- data_hora          TIMESTAMP NOT NULL,
-    tipo_transacao     VARCHAR2(50) NOT NULL,
-    valor              NUMBER(10,2) NOT NULL,
-    descricao          VARCHAR2(255) NOT NULL,
-    endereco_origem    VARCHAR2(50) NOT NULL,
-    endereco_destino   VARCHAR2(50) NOT NULL,
-    hash_transacao     VARCHAR2(50) NOT NULL,
-    taxa_transacao     NUMBER(5) NOT NULL,
-    nr_conta           NUMBER(10) NOT NULL,
-    id_cliente         VARCHAR2(50) NOT NULL,
-    id_corretora       VARCHAR2(50) NOT NULL
-    -- FOREIGN KEY (nr_conta) REFERENCES CONTAS_CRIPTO (nr_conta) ON DELETE CASCADE,
-    -- FOREIGN KEY (id_cliente) REFERENCES CLIENTES (id_cliente) ON DELETE CASCADE,
-    -- FOREIGN KEY (id_corretora) REFERENCES CORRETORA (id_corretora) ON DELETE CASCADE
-);
 
--- Create CRIPTOMOEDAS table
-CREATE TABLE CRIPTOMOEDAS (
-    id_criptomoeda     VARCHAR2(50) NOT NULL PRIMARY KEY,
-    nome                VARCHAR2(50) NOT NULL,
-    simbolo             VARCHAR2(50) NOT NULL
-);
 
--- Create HISTORICO_PRECOS table
-CREATE TABLE HISTORICO_PRECOS (
-    id_registro        VARCHAR2(50) NOT NULL PRIMARY KEY,
-    data_hora          TIMESTAMP NOT NULL,
-    preco_abertura     NUMBER(10,2) NOT NULL,
-    preco_fechamento   NUMBER(10,2) NOT NULL,
-    preco_max          NUMBER(10,2) NOT NULL,
-    preco_min          NUMBER(10,2) NOT NULL,
-    volume_negociacao  NUMBER(10,2) NOT NULL,
-    id_criptomoeda     VARCHAR2(50) NOT NULL
-    -- FOREIGN KEY (id_criptomoeda) REFERENCES CRIPTOMOEDAS (id_criptomoeda) ON DELETE CASCADE
-);
+

@@ -9,11 +9,9 @@ import com.fiap.br.models.enums.TipoCriptoativo;
 import com.fiap.br.models.register.Corretora;
 import com.fiap.br.models.register.Endereco;
 import com.fiap.br.models.register.Usuario;
-import com.fiap.br.models.transaction.Transacao;
 import com.fiap.br.utils.Art;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -68,14 +66,13 @@ public class Main {
                             "2 - Endereço\n" +
                             "3 - Corretora\n" +
                             "4 - ContaInvestimento\n" +
-                            "5 - Transação\n" +
                             "-1 - Sair\n"
                     );
                     classe = scanner.nextInt();
                 } catch (Exception e) {
                     System.out.println("Digite um dos números indicados.");
                 }
-            } while (classe != 1 && classe != 2 && classe != 3 && classe != 4 && classe != 5 && classe != -1);
+            } while (classe != 1 && classe != 2 && classe != 3 && classe != 4 && classe != -1);
 
             if (classe == -1) {
                 break;
@@ -109,8 +106,6 @@ public class Main {
                                 brokerInput(scanner);
                             } else if (classe == 4) {
                                 accountInput(scanner);
-                            } else if (classe == 5) {
-                                transaction(scanner);
                             } else {
                                 System.out.println("A classe foi tratada de forma errada !!!");
                             }
@@ -128,8 +123,6 @@ public class Main {
                                 brokerExibir(scanner);
                             } else if (classe == 4) {
                                 accountExibir(scanner);
-                            } else if (classe == 5) {
-                                transactionExibir(scanner);
                             } else {
                                 System.out.println("A classe foi tratada de forma errada !!!");
                             }
@@ -148,8 +141,6 @@ public class Main {
                                 brokerListar(scanner);
                             } else if (classe == 4) {
                                 accountListar(scanner);
-                            } else if (classe == 5) {
-                                transactionListar(scanner);
                             } else {
                                 System.out.println("A classe foi tratada de forma errada !!!");
                             }
@@ -167,8 +158,6 @@ public class Main {
                                 brokerAtualizar(scanner);
                             } else if (classe == 4) {
                                 accountAtualizar(scanner);
-                            } else if (classe == 5) {
-                                transactionAtualizar(scanner);
                             } else {
                                 System.out.println("A classe foi tratada de forma errada !!!");
                             }
@@ -187,8 +176,6 @@ public class Main {
                                 brokerRemover(scanner);
                             } else if (classe == 4) {
                                 accountRemover(scanner);
-                            } else if (classe == 5) {
-                                transactionRemover(scanner);
                             } else {
                                 System.out.println("A classe foi tratada de forma errada !!!");
                             }
@@ -214,25 +201,6 @@ public class Main {
         Art.getGoodbye();
     }
 
-    private static void transaction(Scanner scanner) throws SQLException {
-        Transacao transacao = new Transacao();
-        TransacaoDAO transacaoDAO = new TransacaoDAO();
-        System.out.println("\n### Realizar Transação. ###");
-
-        double taxaInput = 0.1;
-
-        transactionAmountInput(scanner, transacao);
-        transactionDescriptionInput(scanner, transacao);
-        transactionOriginAddressInput(scanner, transacao);
-        transactionDestinyAddressInput(scanner, transacao);
-        transactionHashInput(scanner, transacao);
-        transactionTaxInput(taxaInput, scanner, transacao);
-
-        transacaoDAO.registerTransacao(transacao);
-
-        System.out.println("\nDados Cadastrados!!!!");
-        System.out.println(transacao.getResumoTransacao());
-    }
 
     private static void accountInput(Scanner scanner) throws SQLException {
         Conta conta = new Conta();
@@ -381,23 +349,7 @@ public class Main {
         }
     }
 
-    private static void transactionExibir(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
-        try {
-            TransacaoDAO transacaoDAO = new TransacaoDAO();
 
-            System.out.println("\n### Exibição de um registro de transação ###");
-            System.out.println("\nDigite id da transação: ");
-            String id_transacao_pesquisar = scanner.next();
-
-            Transacao transacao = transacaoDAO.getTransacao(id_transacao_pesquisar);
-            System.out.println(transacao.getResumoTransacao());
-
-        }catch(SQLException e){
-            System.err.println(e.getMessage());
-        } catch (EntidadeNaoEcontradaException e) {
-            System.err.println("Codigo não existe na tabela");
-        }
-    }
 
     private static void userListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
         try {
@@ -447,17 +399,7 @@ public class Main {
         }
     }
 
-    private static void transactionListar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
-        try {
-            TransacaoDAO transacaoDAO = new TransacaoDAO();
-            List<Transacao> transacoes = transacaoDAO.listar();
-            for (Transacao transacao : transacoes) {
-                System.out.println(transacao.getResumoTransacao());
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-    }
+
 
     private static void userAtualizar(Scanner scanner) throws SQLException {
         Scanner scanner2 = null;
@@ -697,51 +639,7 @@ public class Main {
         }
     }
 
-    private static void transactionAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
-        Scanner scanner2 = null;
-        try {
-            scanner2 = new Scanner(System.in);
 
-            TransacaoDAO transacaoDao = new TransacaoDAO();
-
-            System.out.println("\n### Atualização de uma transação ###");
-            System.out.println("\nDigite o id da transação: ");
-            String id_transacao_pesquisar = scanner2.nextLine();
-
-            Transacao transacao = transacaoDao.getTransacao(id_transacao_pesquisar);
-
-            System.out.println("Digite o novo montante da transação: ");
-            BigDecimal novo_montante = scanner2.nextBigDecimal();
-            transacao.setMontante(novo_montante);
-
-            System.out.println("Digite a nova descrição da transação: ");
-            String nova_descricao = scanner2.nextLine();
-            transacao.setDescricao(nova_descricao);
-
-            System.out.println("Digite o novo endereço de origem da transação: ");
-            String novo_origem = scanner2.nextLine();
-            transacao.setContaOrigem(novo_origem);
-
-            System.out.println("Digite o novo endereço destino da transação: ");
-            String novo_destino = scanner2.nextLine();
-            transacao.setContaDestino(novo_destino);
-
-            System.out.println("Digite o novo hash da transação: ");
-            String novo_hash = scanner2.nextLine();
-            transacao.setHashTransacao(novo_hash);
-
-            System.out.println("Digite a nova taxa da transação: ");
-            double nova_taxa = scanner2.nextDouble();
-            transacao.setTaxaTransacao(nova_taxa);
-
-            transacaoDao.updateTransacao(transacao);
-            System.out.println("Transação atualizada!");
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        } catch (EntidadeNaoEcontradaException e) {
-            System.err.println("Transação não encontrada");
-        }
-    }
 
     private static void userRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
         Scanner scanner2 = null;
@@ -805,18 +703,5 @@ public class Main {
         }
     }
 
-    private static void transactionRemover(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
-        try {
-            TransacaoDAO transacaoDao = new TransacaoDAO();
 
-            System.out.println("\n### Remoção de uma transação ###");
-            System.out.println("\nDigite o id da transação: ");
-            String id_transacao_pesquisar = scanner.nextLine();
-
-            transacaoDao.deleteTransacao(id_transacao_pesquisar);
-            System.out.println("Transação Removida!");
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-    }
 }

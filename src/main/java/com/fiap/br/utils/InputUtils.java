@@ -271,7 +271,7 @@ public class InputUtils {
     public static void addressZipCodeInput(Scanner scanner, Endereco endereco) {
         String cepInput;
         do {
-            System.out.println("Qual o CEP do seu endereço?");
+            System.out.println("Qual o CEP do seu endereço? (digite uma valor adequado, sem hifen)");
             cepInput = scanner.next();
             scanner.nextLine();
             endereco.setCep(cepInput);
