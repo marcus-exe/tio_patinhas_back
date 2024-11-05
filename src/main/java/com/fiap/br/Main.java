@@ -3,6 +3,9 @@ package com.fiap.br;
 import com.fiap.br.dao.*;
 import com.fiap.br.exception.EntidadeNaoEcontradaException;
 import com.fiap.br.models.account.Conta;
+import com.fiap.br.models.enums.StatusConta;
+import com.fiap.br.models.enums.TipoConta;
+import com.fiap.br.models.enums.TipoCriptoativo;
 import com.fiap.br.models.register.Corretora;
 import com.fiap.br.models.register.Endereco;
 import com.fiap.br.models.register.Usuario;
@@ -10,6 +13,7 @@ import com.fiap.br.models.transaction.Transacao;
 import com.fiap.br.utils.Art;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +28,7 @@ public class Main {
         //Init.SQL
         try {
             CheckTablesExistence checkTablesExistence = new CheckTablesExistence();
-            for (String tableName : checkTablesExistence.tablesToCheck) {
+            for (String tableName: checkTablesExistence.tablesToCheck) {
                 if (!checkTablesExistence.checkTableExists(tableName)) {
                     try {
                         InitSQL initSQL = new InitSQL();
@@ -158,7 +162,7 @@ public class Main {
                             if (classe == 1) {
                                 userAtualizar(scanner);
                             } else if (classe == 2) {
-                                addressAtualizar();
+                                addressAtualizar(scanner);
                             } else if (classe == 3) {
                                 brokerAtualizar(scanner);
                             } else if (classe == 4) {
@@ -191,7 +195,6 @@ public class Main {
                         } catch (SQLException e) {
                             System.err.println(e.getMessage());
                         }
-
                     }
 
                     default -> {
@@ -202,15 +205,18 @@ public class Main {
                 System.err.println(e.getMessage());
             }
 
-        System.out.println("\nVocê deseja continuar? S/N");
-        continuar = scanner.next();
-        } while(Objects.equals(continuar, "S") || Objects.equals(continuar, "s"));
+            System.out.println("\nVocê deseja continuar? S/N");
+            continuar = scanner.next();
 
+        }while(Objects.equals(continuar, "S") || Objects.equals(continuar, "s"));
+
+        //System.out.println("\nObrigado e até a próxima!!!");
         Art.getGoodbye();
     }
 
-    private static void transaction(Scanner scanner) {
+    private static void transaction(Scanner scanner) throws SQLException {
         Transacao transacao = new Transacao();
+        TransacaoDAO transacaoDAO = new TransacaoDAO();
         System.out.println("\n### Realizar Transação. ###");
 
         double taxaInput = 0.1;
@@ -221,6 +227,8 @@ public class Main {
         transactionDestinyAddressInput(scanner, transacao);
         transactionHashInput(scanner, transacao);
         transactionTaxInput(taxaInput, scanner, transacao);
+
+        transacaoDAO.registerTransacao(transacao);
 
         System.out.println("\nDados Cadastrados!!!!");
         System.out.println(transacao.getResumoTransacao());
@@ -235,7 +243,7 @@ public class Main {
         accountNumberInput(scanner, conta);
         accountPasswordInput(scanner, conta);
         accountTypeInput(scanner, conta);
-        accountCryptoTypeInput(scanner, conta);
+        /*accountCryptoTypeInput(scanner, conta);*/
         accountStatusInput(scanner, conta);
         accountAddressInput(scanner, conta);
 
@@ -271,6 +279,12 @@ public class Main {
         int numberInput = -1;
         addressStreetInput(scanner, endereco);
         addressNumberInput(numberInput, scanner, endereco);
+        addressExtraInfoInput(scanner, endereco);
+        addressNeighborhoodInput(scanner, endereco);
+        addressCityInput(scanner, endereco);
+        addressStateCodeInput(scanner, endereco);
+        addressZipCodeInput(scanner, endereco);
+        addressCountryInput(scanner, endereco);
 
         enderecoDAO.registerEndereco(endereco);
 
@@ -304,7 +318,7 @@ public class Main {
             String id_usuario_pesquisar = scanner.next();
 
             Usuario usuario = usuarioDAO.getUsuario(id_usuario_pesquisar);
-            System.out.println(usuario.getIdUsuario() + " " + usuario.getNomeCompleto() + ".");
+            System.out.println(usuario.getResumoUsuario());
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -322,7 +336,7 @@ public class Main {
             String id_endereco_pesquisar = scanner.next();
 
             Endereco endereco = enderecoDAO.getEndereco(id_endereco_pesquisar);
-            System.out.println(endereco.getIdEndereco() + " " + endereco.getResumoEndereco() + ".");
+            System.out.println(endereco.getResumoEndereco());
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -340,7 +354,7 @@ public class Main {
             String id_corretora_pesquisar = scanner.next();
 
             Corretora corretora = corretoraDAO.getCorretora(id_corretora_pesquisar);
-            System.out.println(corretora.getIdCorretora() + " " + corretora.getNomeCorretora() + ".");
+            System.out.println(corretora.getResumoCorretora());
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -358,7 +372,7 @@ public class Main {
             String nr_account_pesquisar = scanner.next();
 
             Conta conta = accountDAO.getAccount(nr_account_pesquisar);
-            System.out.println(conta.getNrConta() + " " + conta.getTipoConta() + ".");
+            System.out.println(conta.getResumoConta());
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -376,7 +390,7 @@ public class Main {
             String id_transacao_pesquisar = scanner.next();
 
             Transacao transacao = transacaoDAO.getTransacao(id_transacao_pesquisar);
-            System.out.println(transacao.getIdTransacao() + " " + transacao.getContaOrigem() + ".");
+            System.out.println(transacao.getResumoTransacao());
 
         }catch(SQLException e){
             System.err.println(e.getMessage());
@@ -390,7 +404,6 @@ public class Main {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             List<Usuario> usuarios = usuarioDAO.listar();
             for (Usuario usuario : usuarios) {
-                //System.out.println(usuario.getIdUsuario() + " " + usuario.getNomeCompleto() + ".");
                 System.out.println(usuario.getResumoUsuario());
             }
         } catch (SQLException e) {
@@ -415,7 +428,7 @@ public class Main {
             CorretoraDAO corretoraDAO = new CorretoraDAO();
             List<Corretora> corretoras = corretoraDAO.listar();
             for (Corretora corretora : corretoras) {
-                System.out.println(corretora.getIdCorretora() + " " + corretora.getNomeCorretora() + ".");
+                System.out.println(corretora.getResumoCorretora());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -427,7 +440,7 @@ public class Main {
             AccountDAO accountDAO = new AccountDAO();
             List<Conta> contas = accountDAO.listar();
             for (Conta conta : contas) {
-                System.out.println(conta.getNrConta() + " " + conta.getTipoConta() + ".");
+                System.out.println(conta.getResumoConta());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -439,7 +452,7 @@ public class Main {
             TransacaoDAO transacaoDAO = new TransacaoDAO();
             List<Transacao> transacoes = transacaoDAO.listar();
             for (Transacao transacao : transacoes) {
-                System.out.println(transacao.getIdTransacao() + " " + transacao.getContaOrigem() + ".");
+                System.out.println(transacao.getResumoTransacao());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -456,7 +469,6 @@ public class Main {
             System.out.println("\n### Atualização de um usuário ###");
             System.out.println("Digite id do usuário: ");
 
-
             String id_usuario_pesquisar = scanner2.nextLine();
 
             Usuario usuario = usuarioDao.getUsuario(id_usuario_pesquisar);
@@ -465,6 +477,21 @@ public class Main {
             String novo_nome = scanner2.nextLine();
             usuario.setNomeCompleto(novo_nome);
 
+            System.out.println("Digite o novo email do usuário: ");
+            String novo_email = scanner2.nextLine();
+            usuario.setEmail(novo_email);
+
+            System.out.println("Digite a nova senha do usuário: ");
+            String nova_senha = scanner2.nextLine();
+            usuario.setSenha(nova_senha);
+
+            System.out.println("Digite o novo cpf do usuário: ");
+            String novo_cpf = scanner2.nextLine();
+            usuario.setCpf(novo_cpf);
+
+            System.out.println("Digite o novo telefone do usuário: ");
+            String novo_telefone = scanner2.nextLine();
+            usuario.setTelefone(novo_telefone);
 
             usuarioDao.updateUsuario(usuario);
             System.out.println("Usuário atualizado!");
@@ -472,13 +499,10 @@ public class Main {
             System.err.println(e.getMessage());
         } catch (EntidadeNaoEcontradaException e) {
             System.err.println("Usuário não encontrado");
-        } finally {
-            assert scanner2 != null;
-            scanner2.close();
         }
     }
 
-    private static void addressAtualizar() throws SQLException{
+    private static void addressAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
         Scanner scanner2 = null;
         try {
             scanner2 = new Scanner(System.in);
@@ -491,44 +515,97 @@ public class Main {
 
             Endereco endereco = enderecoDao.getEndereco(id_endereco_pesquisar);
 
-            System.out.println("Digite o nova rua do endereco: ");
+            System.out.println("Digite a nova rua do endereço: ");
             String nova_rua = scanner2.nextLine();
             endereco.setRua(nova_rua);
 
-            System.out.println("Digite o novo numero: ");
-            String novo_numero = scanner2.nextLine();
-            endereco.setNumero(Integer.parseInt(novo_numero));
+            System.out.println("Digite o novo número do endereço: ");
+            int novo_numero = scanner2.nextInt();
+            scanner2.nextLine();
+            endereco.setNumero(novo_numero);
+
+            System.out.println("Digite o novo complemento do endereco: ");
+            String novo_complemento = scanner2.nextLine();
+            endereco.setComplemento(novo_complemento);
+
+            System.out.println("Digite o novo bairro do endereco: ");
+            String novo_bairro = scanner2.nextLine();
+            endereco.setBairro(novo_bairro);
+
+            System.out.println("Digite a nova cidade do endereco: ");
+            String nova_cidade = scanner2.nextLine();
+            endereco.setCidade(nova_cidade);
+
+            System.out.println("Digite o novo código de estado do endereco: ");
+            String novo_cd_estado = scanner2.nextLine();
+            endereco.setCdEstado(novo_cd_estado);
+
+            System.out.println("Digite o novo cep do endereco: ");
+            String novo_cep = scanner2.nextLine();
+            endereco.setCep(novo_cep);
+
+            System.out.println("Digite o novo país do endereco: ");
+            String novo_pais = scanner2.nextLine();
+            endereco.setPais(novo_pais);
 
             enderecoDao.updateEndereco(endereco);
             System.out.println("Endereço atualizado!");
-
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } catch (EntidadeNaoEcontradaException e) {
             System.err.println("Endereço não encontrado");
-        } finally {
-            assert scanner2 != null;
-            scanner2.close();
         }
     }
 
     private static void brokerAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        Scanner scanner2 = null;
         try {
+            scanner2 = new Scanner(System.in);
+
             CorretoraDAO corretoraDao = new CorretoraDAO();
 
             System.out.println("\n### Atualização de uma corretora ###");
             System.out.println("\nDigite id da corretora: ");
-            String id_corretora_pesquisar = scanner.nextLine();
+            String id_corretora_pesquisar = scanner2.nextLine();
 
             Corretora corretora = corretoraDao.getCorretora(id_corretora_pesquisar);
 
             System.out.println("Digite o novo nome da corretora: ");
-            String novo_nome_corretora = scanner.nextLine();
+            String novo_nome_corretora = scanner2.nextLine();
             corretora.setNomeCorretora(novo_nome_corretora);
 
+            System.out.println("Digite o novo cnpj da corretora: ");
+            String novo_cnpj_corretora = scanner2.nextLine();
+            corretora.setCnpj(novo_cnpj_corretora);
+
             System.out.println("Digite o novo email da corretora: ");
-            String novo_email_corretora = scanner.nextLine();
+            String novo_email_corretora = scanner2.nextLine();
             corretora.setEmail(novo_email_corretora);
+
+            System.out.println("Digite o novo telefone da corretora: ");
+            String novo_telefone_corretora = scanner2.nextLine();
+            corretora.setTelefone(novo_telefone_corretora);
+
+            System.out.println("Digite o novo tipo de criptoativo da corretora: ");
+            TipoCriptoativo[] criptoativos = TipoCriptoativo.values();
+            for (int i = 0; i < criptoativos.length; i++) {
+                TipoCriptoativo cripto = criptoativos[i];
+                System.out.println("Index: " + i + ", Criptoativo: " + cripto.getNome() + ", Símbolo: " + cripto.getSimbolo());
+            }
+
+            int tiposCriptoativosInput = scanner.nextInt();
+            scanner.nextLine();
+
+            if (tiposCriptoativosInput >= 0 && tiposCriptoativosInput <= TipoCriptoativo.values().length) {
+                corretora.setTiposCriptoativosSuportados(criptoativos[tiposCriptoativosInput]);
+            } else {
+                tiposCriptoativosInput = -1;
+            }
+
+
+            System.out.println("Digite o novo endereço de carteira da corretora: ");
+            String novo_endereco_corretora = scanner2.nextLine();
+            corretora.setEnderecoCarteiraCorretora(novo_endereco_corretora);
 
             corretoraDao.updateCorretora(corretora);
             System.out.println("Corretora atualizada!");
@@ -540,22 +617,76 @@ public class Main {
     }
 
     private static void accountAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        Scanner scanner2 = null;
         try {
+            scanner2 = new Scanner(System.in);
+
+            Conta contaInvestimento = new Conta();
             AccountDAO accountDao = new AccountDAO();
 
             System.out.println("\n### Atualização de uma conta de investimento ###");
             System.out.println("\nDigite número da conta: ");
-            String nr_conta_pesquisar = scanner.nextLine();
+            String nr_conta_pesquisar = scanner2.nextLine();
 
             Conta conta = accountDao.getAccount(nr_conta_pesquisar);
 
             System.out.println("Digite a nova senha da conta: ");
-            String novo_senha_conta = scanner.nextLine();
+            String novo_senha_conta = scanner2.nextLine();
             conta.setSenhaConta(novo_senha_conta);
 
+            int tipoContaInput;
+            System.out.println("Digite o novotipo da sua conta:\n" +
+                    "1 - Conta Corrente\n" +
+                    "2 - Conta Poupança\n ");
+            try {
+                tipoContaInput = scanner2.nextInt();
+                scanner2.nextLine();
+            } catch (Exception e) {
+                tipoContaInput = -1;
+            }
+            TipoConta tipoConta;
+            if (tipoContaInput == 2) {
+                tipoConta = TipoConta.CONTA_CORRENTE;
+            } else if (tipoContaInput == 1) {
+                tipoConta = TipoConta.CONTA_POUCANCA;
+            } else {
+                tipoConta = null;
+                tipoContaInput = -1;
+            }
+            if (tipoConta != null) {
+                contaInvestimento.setTipoConta(tipoConta);
+            }
+
             System.out.println("Digite o novo saldo da conta: ");
-            double novo_saldo_conta = scanner.nextDouble();
+            double novo_saldo_conta = scanner2.nextDouble();
             conta.setSaldo(novo_saldo_conta);
+
+            int statusContaInput;
+            System.out.println("Digite o novo status da sua conta: \n" +
+                    "1 - Ativo\n" +
+                    "2 - Inativo\n");
+            try {
+                statusContaInput = scanner2.nextInt();
+                scanner2.nextLine();
+            } catch (Exception e) {
+                statusContaInput = -1;
+            }
+            StatusConta statusConta;
+            if (statusContaInput == 1) {
+                statusConta = StatusConta.ATIVA;
+            } else if (statusContaInput == 2) {
+                statusConta = StatusConta.INATIVA;
+            } else {
+                statusContaInput = -1;
+                statusConta = null;
+            }
+            if (statusConta != null) {
+                contaInvestimento.setStatusConta(statusConta);
+            }
+
+            System.out.println("Digite o novo endereço de carteira da conta: ");
+            String novo_endereco_conta = scanner2.nextLine();
+            conta.setEnderecoCarteira(novo_endereco_conta);
 
             accountDao.updateAccount(conta);
             System.out.println("Conta atualizada!");
@@ -567,22 +698,41 @@ public class Main {
     }
 
     private static void transactionAtualizar(Scanner scanner) throws SQLException, EntidadeNaoEcontradaException {
+        Scanner scanner2 = null;
         try {
+            scanner2 = new Scanner(System.in);
+
             TransacaoDAO transacaoDao = new TransacaoDAO();
 
             System.out.println("\n### Atualização de uma transação ###");
             System.out.println("\nDigite o id da transação: ");
-            String id_transacao_pesquisar = scanner.nextLine();
+            String id_transacao_pesquisar = scanner2.nextLine();
 
             Transacao transacao = transacaoDao.getTransacao(id_transacao_pesquisar);
 
+            System.out.println("Digite o novo montante da transação: ");
+            BigDecimal novo_montante = scanner2.nextBigDecimal();
+            transacao.setMontante(novo_montante);
+
+            System.out.println("Digite a nova descrição da transação: ");
+            String nova_descricao = scanner2.nextLine();
+            transacao.setDescricao(nova_descricao);
+
             System.out.println("Digite o novo endereço de origem da transação: ");
-            String novo_origem = scanner.nextLine();
+            String novo_origem = scanner2.nextLine();
             transacao.setContaOrigem(novo_origem);
 
             System.out.println("Digite o novo endereço destino da transação: ");
-            String novo_destino = scanner.nextLine();
+            String novo_destino = scanner2.nextLine();
             transacao.setContaDestino(novo_destino);
+
+            System.out.println("Digite o novo hash da transação: ");
+            String novo_hash = scanner2.nextLine();
+            transacao.setHashTransacao(novo_hash);
+
+            System.out.println("Digite a nova taxa da transação: ");
+            double nova_taxa = scanner2.nextDouble();
+            transacao.setTaxaTransacao(nova_taxa);
 
             transacaoDao.updateTransacao(transacao);
             System.out.println("Transação atualizada!");
@@ -607,9 +757,6 @@ public class Main {
             System.out.println("Usuário Removido!");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
-            assert scanner2 != null;
-            scanner2.close();
         }
     }
 
@@ -619,7 +766,7 @@ public class Main {
 
             System.out.println("\n### Remoção de um endereço ###");
             System.out.println("\nDigite o id do endereço: ");
-            String id_endereco_pesquisar = scanner.nextLine();
+            String id_endereco_pesquisar = scanner.next();
 
             enderecoDao.deleteEndereco(id_endereco_pesquisar);
             System.out.println("Endereço Removido!");
@@ -634,7 +781,7 @@ public class Main {
 
             System.out.println("\n### Remoção de uma corretora ###");
             System.out.println("\nDigite o id da corretora: ");
-            String id_corretora_pesquisar = scanner.nextLine();
+            String id_corretora_pesquisar = scanner.next();
 
             corretoraDao.deleteCorretora(id_corretora_pesquisar);
             System.out.println("Corretora Removida!");
@@ -649,7 +796,7 @@ public class Main {
 
             System.out.println("\n### Remoção de uma conta de investimento ###");
             System.out.println("\nDigite o número da conta: ");
-            String nr_conta_pesquisar = scanner.nextLine();
+            String nr_conta_pesquisar = scanner.next();
 
             accountDao.deleteAccount(nr_conta_pesquisar);
             System.out.println("Conta Removida!");

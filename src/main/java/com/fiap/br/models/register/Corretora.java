@@ -23,6 +23,16 @@ public class Corretora {
         idCorretora = UUID.randomUUID();
     }
 
+    public Corretora(String id, String nomeCorretoraInput, String cnpjInput, String emailInput, String telefoneInput, TipoCriptoativo tiposCriptoativosSuportadosInput, String enderecoCarteiraCorretoraInput) {
+        idCorretora = UUID.fromString(id);
+        nomeCorretora = nomeCorretoraInput;
+        cnpj = cnpjInput;
+        email = emailInput;
+        telefone = telefoneInput;
+        tiposCriptoativosSuportados = tiposCriptoativosSuportadosInput;
+        enderecoCarteiraCorretora = enderecoCarteiraCorretoraInput;
+    }
+
     //getter and setters
 
     public UUID getIdCorretora() {
@@ -79,11 +89,11 @@ public class Corretora {
 
     public String getResumoCorretora(){
         return "\nId da corretora: " + this.getIdCorretora() +
-                "\nNome da corretora: " + this.getNomeCorretora() +
-                "\nCNPJ: " + this.getCnpj() +
-                "\nTelefone: " + this.getTelefone() +
-                "\nEmail: " + this.getEmail() +
-                "\nTipos de Criptoativos Suportados: " + this.getTiposCriptoativosSuportados() +
-                "\nEndereço de Carteira da Corretora: " + this.getEnderecoCarteiraCorretora() + ".";
+                "  Nome da corretora: " + this.getNomeCorretora() +
+                "  CNPJ: " + this.getCnpj() +
+                "  Telefone: " + this.getTelefone() +
+                "  Email: " + this.getEmail() +
+                "  Tipos de Criptoativos Suportados: " + this.getTiposCriptoativosSuportados() +
+                "  Endereço de Carteira da Corretora: " + this.getEnderecoCarteiraCorretora() + ".";
     }
 }

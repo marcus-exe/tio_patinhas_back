@@ -23,6 +23,32 @@ public class Transacao {
         idTransacao = UUID.randomUUID();
     }
 
+    public Transacao(String id, BigDecimal montante, String descricao, String enderecoOrigem, String enderecoDestino, String hash, double taxa) {
+
+        idTransacao = UUID.randomUUID();
+        this.montante = montante;
+        this.descricao = descricao;
+        contaOrigem = enderecoOrigem;
+        contaDestino = enderecoDestino;
+        hashTransacao = hash;
+        taxaTransacao = taxa;
+    }
+
+    public Transacao(String id, /* java.util.Date dataTransacao*/ BigDecimal montate, String descricao, String enderecoOrigem, String enderecoDestino, String hashTransacao, double taxaTransacao, String nrConta, String tipoTransacao, String idCliente, String idCorretora) {
+        idTransacao = UUID.fromString(id);
+        //data = (Date) dataTransacao;
+        montante = montate;
+        this.descricao = descricao;
+        contaOrigem = enderecoOrigem;
+        contaDestino = enderecoDestino;
+        this.hashTransacao = hashTransacao;
+        this.taxaTransacao = taxaTransacao;
+        this.nrConta = nrConta;
+        this.tipoTransacao = tipoTransacao;
+        this.idCliente = UUID.fromString(idCliente);
+        this.idCorretora = UUID.fromString(idCorretora);
+    }
+
     public UUID getIdTransacao() {
         return idTransacao;
     }
@@ -35,11 +61,9 @@ public class Transacao {
         this.montante = montante;
     }
 
-    public Date getData() { return data; }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
+    //public java.sql.Date getData() {
+    //    return new java.sql.Date(data.getTime());
+    //}
 
     public String getDescricao() {
         return descricao;
@@ -113,13 +137,12 @@ public class Transacao {
 
 
     public String getResumoTransacao() {
-        return  "ID da Transação: " + this.getIdTransacao() +
-                "\nMontante: R$" + this.getMontante() +
-                "\nData: " + this.getData() +
-                "\nDescrição: " + this.getDescricao() +
-                "\nEndereço Origem: " + this.getContaOrigem() +
-                "\nEndereço Destino: " + this.getContaDestino() +
-                "\nHash de Transação: " + this.getHashTransacao() +
-                "\nTaxa de Transação: " + this.getTaxaTransacao() + ".";
+        return  "\nID da Transação: " + this.getIdTransacao() +
+                "  Montante: R$" + this.getMontante() +
+                "  Descrição: " + this.getDescricao() +
+                "  Endereço Origem: " + this.getContaOrigem() +
+                "  Endereço Destino: " + this.getContaDestino() +
+                "  Hash de Transação: " + this.getHashTransacao() +
+                "  Taxa de Transação: " + this.getTaxaTransacao() + ".";
     }
 }

@@ -46,22 +46,31 @@ public class UsuarioDAO {
         stm.setString(1, id);
         ResultSet result = stm.executeQuery();
         if (!result.next())
-            throw new EntidadeNaoEcontradaException("Produto não encontrado");
+            throw new EntidadeNaoEcontradaException("Usuário não encontrado");
         return parseUsuario(result);
     }
 
     private Usuario parseUsuario(ResultSet result) throws SQLException {
         String id = result.getString("id_cliente");
         String nomeCompleto = result.getString("nome_completo");
-        return new Usuario(id, nomeCompleto);
+        String email = result.getString("email");
+        String senha = result.getString("senha");
+        String cpfCnpj = result.getString("cpf_cnpj");
+        String telefone = result.getString("telefone");
+        return new Usuario(id, nomeCompleto, email, senha, cpfCnpj, telefone);
     }
 
 
 
     public void updateUsuario(Usuario usuario) throws SQLException {
-        PreparedStatement stm = connection.prepareStatement("update clientes set nome_completo = ? where id_cliente = ?");
+        PreparedStatement stm = connection.prepareStatement("update clientes set nome_completo = ?, email = ?, senha = ?, cpf_cnpj = ?, telefone = ?  where id_cliente = ?");
         stm.setString(1, usuario.getNomeCompleto());
-        stm.setString(2, usuario.getIdUsuario().toString());
+        stm.setString(2, usuario.getEmail());
+        stm.setString(3, usuario.getSenha());
+        stm.setString(4, usuario.getCpfCnpj());
+        stm.setString(5, usuario.getTelefone());
+        stm.setString(6, usuario.getIdUsuario().toString());
+
         stm.executeUpdate();
     }
 

@@ -21,11 +21,10 @@ public class InputUtils {
             try {
                 System.out.println("Qual a taxa da transação?");
                 taxaInput = scanner.nextDouble();
-                scanner.next();
+                scanner.nextLine();
                 transacao.setTaxaTransacao(taxaInput);
             } catch (Exception e) {
                 System.out.println("Digite um valor válido :)");
-                scanner.next();
             }
         } while (taxaInput < 0);
     }
@@ -35,6 +34,7 @@ public class InputUtils {
         do {
             System.out.println("Qual hash da transação?");
             hashTransacaoInput = scanner.next();
+            scanner.nextLine();
             transacao.setHashTransacao(hashTransacaoInput);
         } while (Objects.equals(hashTransacaoInput, ""));
     }
@@ -44,6 +44,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o endereco de destino da transação?");
             enderecoDestinoInput = scanner.next();
+            scanner.nextLine();
             transacao.setContaDestino(enderecoDestinoInput);
         } while (enderecoDestinoInput == "");
     }
@@ -53,6 +54,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o endereco de origem da transação?");
             enderecoOrigemInput = scanner.next();
+            scanner.nextLine();
             transacao.setContaOrigem(enderecoOrigemInput);
         } while (Objects.equals(enderecoOrigemInput, ""));
     }
@@ -62,6 +64,7 @@ public class InputUtils {
         do {
             System.out.println("Qual a descrição da transação?");
             descricaoTransacaoInput = scanner.next();
+            scanner.nextLine();
             transacao.setDescricao(descricaoTransacaoInput);
         } while (Objects.equals(descricaoTransacaoInput, ""));
     }
@@ -117,7 +120,7 @@ public class InputUtils {
         } while (Objects.equals(endereco_carteira, ""));
     }
 
-    public static void accountCryptoTypeInput(Scanner scanner, Conta contaInvestimento) {
+    /*public static void accountCryptoTypeInput(Scanner scanner, Conta contaInvestimento) {
         int tipoMoedaInput;
         do {
             System.out.println("Digite o tipo de moeda da sua conta: ");
@@ -136,7 +139,7 @@ public class InputUtils {
                 tipoMoedaInput = -1;
             }
         } while (tipoMoedaInput == -1);
-    }
+    }*/
 
     public static void accountTypeInput(Scanner scanner, Conta contaInvestimento) {
         int tipoContaInput;
@@ -187,6 +190,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o endereço de carteira da sua corretora?");
             enderecoCarteiraCorretoraInput = scanner.next();
+            scanner.nextLine();
             corretora.setEnderecoCarteiraCorretora(enderecoCarteiraCorretoraInput);
         } while (Objects.equals(enderecoCarteiraCorretoraInput, ""));
     }
@@ -203,6 +207,7 @@ public class InputUtils {
             }
 
             tiposCriptoativosInput = scanner.nextInt();
+            scanner.nextLine();
 
             if (tiposCriptoativosInput >= 0 && tiposCriptoativosInput <= TipoCriptoativo.values().length) {
                 corretora.setTiposCriptoativosSuportados(criptoativos[tiposCriptoativosInput]);
@@ -218,6 +223,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o email da sua corretora?");
             emailCorretoraInput = scanner.next();
+            scanner.nextLine();
             corretora.setEmail(emailCorretoraInput);
         } while (Objects.equals(emailCorretoraInput, ""));
     }
@@ -227,6 +233,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o telefone da sua corretora?");
             telefoneCorretoraInput = scanner.next();
+            scanner.nextLine();
             corretora.setTelefone(telefoneCorretoraInput);
         } while (Objects.equals(telefoneCorretoraInput, ""));
     }
@@ -236,6 +243,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o CNPJ da sua corretora?");
             cnpjCorretoraInput = scanner.next();
+            scanner.nextLine();
             corretora.setCnpj(cnpjCorretoraInput);
         } while (Objects.equals(cnpjCorretoraInput, ""));
     }
@@ -245,17 +253,77 @@ public class InputUtils {
         do {
             System.out.println("Qual o nome da sua corretora?");
             nomeCorretoraInput = scanner.next();
+            scanner.nextLine();
             corretora.setNomeCorretora(nomeCorretoraInput);
         } while (Objects.equals(nomeCorretoraInput, ""));
     }
 
+    public static void addressCountryInput(Scanner scanner, Endereco endereco) {
+        String paisInput;
+        do {
+            System.out.println("Qual o país que você reside?");
+            paisInput = scanner.next();
+            scanner.nextLine();
+            endereco.setPais(paisInput);
+        } while (Objects.equals(paisInput, ""));
+    }
 
+    public static void addressZipCodeInput(Scanner scanner, Endereco endereco) {
+        String cepInput;
+        do {
+            System.out.println("Qual o CEP do seu endereço?");
+            cepInput = scanner.next();
+            scanner.nextLine();
+            endereco.setCep(cepInput);
+        } while (Objects.equals(cepInput, ""));
+    }
+
+    public static void addressStateCodeInput(Scanner scanner, Endereco endereco) {
+        String cdEstadoInput;
+        do {
+            System.out.println("Qual o cd do estado do seu endereço?");
+            cdEstadoInput = scanner.next();
+            scanner.nextLine();
+            endereco.setCdEstado(cdEstadoInput);
+        } while (Objects.equals(cdEstadoInput, ""));
+    }
+
+    public static void addressCityInput(Scanner scanner, Endereco endereco) {
+        String cidadeInput;
+        do {
+            System.out.println("Qual a cidade do seu endereço?");
+            cidadeInput = scanner.next();
+            scanner.nextLine();
+            endereco.setCidade(cidadeInput);
+        } while (Objects.equals(cidadeInput, ""));
+    }
+
+    public static void addressNeighborhoodInput(Scanner scanner, Endereco endereco) {
+        String bairroInput;
+        do {
+            System.out.println("Qual o bairro do seu endereço?");
+            bairroInput = scanner.next();
+            scanner.nextLine();
+            endereco.setBairro(bairroInput);
+        } while (Objects.equals(bairroInput, ""));
+    }
+
+    public static void addressExtraInfoInput(Scanner scanner, Endereco endereco) {
+        String complementoInput;
+        do {
+            System.out.println("Qual o complemento do seu endereço?");
+            complementoInput = scanner.next();
+            scanner.nextLine();
+            endereco.setComplemento(complementoInput);
+        } while (Objects.equals(complementoInput, ""));
+    }
 
     public static void addressNumberInput(int numeroInput, Scanner scanner, Endereco endereco) {
         do {
             try {
                 System.out.println("Qual o número do seu endereço?");
                 numeroInput = scanner.nextInt();
+                scanner.nextLine();
                 endereco.setNumero(numeroInput);
             } catch (Exception e) {
                 System.out.println("Digite um valor válido :)");
@@ -268,7 +336,8 @@ public class InputUtils {
         String ruaInput;
         do {
             System.out.println("Em qual rua você mora?");
-            ruaInput = scanner.nextLine();
+            ruaInput = scanner.next();
+            scanner.nextLine();
             endereco.setRua(ruaInput);
         } while (Objects.equals(ruaInput, ""));
     }
@@ -278,6 +347,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o seu número de telefone com DD? (somente números)");
             telefoneUsuarioInput = scanner.next();
+            scanner.nextLine();
             try {
                 usuario.setTelefone(Formatters.formatPhoneNumber(telefoneUsuarioInput));
             } catch (IllegalArgumentException ignored) {
@@ -333,6 +403,7 @@ public class InputUtils {
         do {
             System.out.println("Qual o seu nome completo?");
             nomeCompletoUsuarioInput = scanner.next();
+            scanner.nextLine();
             usuario.setNomeCompleto(nomeCompletoUsuarioInput);
         } while (Objects.equals(nomeCompletoUsuarioInput, ""));
     }

@@ -28,6 +28,14 @@ public class Conta {
         idCorretora = UUID.randomUUID();  //sem tempo de implementar com lógica completinha
     }
 
+    public Conta(String nrConta, String senhaConta, double saldo, TipoConta tipoConta, StatusConta statusConta, Date dataCriacao, String enderecoCarteira, UUID idCliente, UUID idCorretora) {
+        dataCriacao = new Date();
+        saldo = 0;
+        this.statusConta = StatusConta.INATIVA;
+        idCliente = UUID.randomUUID(); //sem tempo de implementar com lógica completinha
+        idCorretora = UUID.randomUUID();  //sem tempo de implementar com lógica completinha
+    }
+
     public Conta (String nr_conta){
         this.nrConta = nrConta;
     }
@@ -41,6 +49,18 @@ public class Conta {
         dataCriacao = new Date();
         idCliente = UUID.randomUUID(); //sem tempo de implementar com lógica completinha
         idCorretora = UUID.randomUUID();  //sem tempo de implementar com lógica completinha
+    }
+
+    public Conta(String id, String senhaInput, String tipoContaInput, Double saldoInput, Date dataAberturaInput, String statusInput, String enderecoCarteiraInput, String idClienteInput, String idCorretoraInput) {
+        nrConta = id;
+        senhaConta = senhaInput;
+        tipoConta = TipoConta.valueOf(tipoContaInput);
+        saldo = saldoInput;
+        dataCriacao = new Date();
+        statusConta = StatusConta.valueOf(statusInput);
+        enderecoCarteira = enderecoCarteiraInput;
+        idCliente = UUID.fromString(idClienteInput);
+        idCorretora = UUID.fromString(idCorretoraInput);
     }
 
     public UUID getIdCorretora() {
@@ -111,23 +131,22 @@ public class Conta {
         this.tipoConta = tipoConta;
     }
 
-    public String getTipoCriptoativo() {
+    /*public String getTipoCriptoativo() {
         return tipoCriptoativo.toString();
     }
 
     public void setTipoCriptoativo(TipoCriptoativo tipoCriptoativo) {
-        this.tipoCriptoativo = tipoCriptoativo;
-    }
+        this.tipoCriptoativo = new tipoCriptoativo;
+    }*/
 
     public String getResumoConta() {
-        return  "Número da Conta: " + this.getNrConta() +
-                "\nSaldo: " + this.getSaldo() +
-                "\nSenha da Conta: R$" + this.getSenhaConta() +
-                "\nTipo da Conta: " + this.getTipoConta() +
-                "\nTipo de Moeda: " + this.getTipoCriptoativo() +
-                "\nData de Abertura: " + this.getDataCriacao() +
-                "\nStatus da Conta: " + this.getStatusConta() +
-                "\nEndereço da Carteira: " + this.getEnderecoCarteira() + ".";
+        return  "\nNúmero da Conta: " + this.getNrConta() +
+                "  Saldo: R$" + this.getSaldo() +
+                "  Senha da Conta: " + this.getSenhaConta() +
+                "  Tipo da Conta: " + this.getTipoConta() +
+                "  Data de Abertura: " + this.getDataCriacao() +
+                "  Status da Conta: " + this.getStatusConta() +
+                "  Endereço da Carteira: " + this.getEnderecoCarteira() + ".";
     }
 }
 
